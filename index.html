@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ARGUS · Data-loss prevention</title>
+<meta name="description" content="ARGUS is self-hosted data-loss prevention for company Windows laptops: ten detections, local content inspection, optional blocking, privacy by default, one signed installer.">
+<link rel="icon" href="assets/img/argus.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#top" aria-label="ARGUS home"><img src="assets/img/argus.svg" alt="" width="34" height="34"><span>ARGUS</span></a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#how">How it works</a>
+      <a href="#detections">Detections</a>
+      <a href="#control">Control</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#trust">Trust</a>
+      <a href="#deploy">Deploy</a>
+      <a href="#proof">Proof</a>
+      <a href="#films" class="nav-films">Films</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ======================================================== hero + tour -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <p class="eyebrow">Self-hosted data-loss prevention for Windows laptops</p>
+    <h1>Know when data walks out the door.</h1>
+    <p class="lede">ARGUS watches the places company data actually leaves a laptop: the clipboard, USB drives and the browser. It recognises card numbers, PAN, Aadhaar, credentials and production data on the laptop itself, raises one clear alert per incident on your own servers, and tells every employee exactly what it collects.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="#tour">Watch the 4-minute tour</a>
+      <a class="btn" href="#detections">See the ten detections</a>
+    </div>
+    <ul class="facts" aria-label="ARGUS at a glance">
+      <li><b>10</b><span>detections, one alert each</span></li>
+      <li><b>1</b><span>signed installer for every laptop</span></li>
+      <li><b>0</b><span>laptop ports reachable from the network</span></li>
+      <li><b>100%</b><span>on your servers, no cloud service</span></li>
+    </ul>
+  </div>
+
+  <div class="wrap" id="tour">
+    <div class="tour" data-tour>
+      <p class="tour-empty">The product tour loads from the film library. If it does not appear, check that <code>batches/manifest.js</code> lists a batch.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== the problem -->
+<section class="section" id="problem">
+  <div class="wrap">
+    <p class="kicker">The problem</p>
+    <h2>Data rarely leaves through the firewall. It leaves through the laptop.</h2>
+    <div class="cols3">
+      <article class="exit">
+        <h3>The clipboard</h3>
+        <p>Rows copied out of a production database and pasted into Notepad. A password copied into a chat. Nothing crosses the network yet, so network tools see nothing.</p>
+        <p class="covers">Detections <b>#1</b> and <b>#2</b></p>
+      </article>
+      <article class="exit">
+        <h3>USB drives</h3>
+        <p>A customer export copied to a personal stick on someone's last week. By the time anyone asks, the file and the stick are gone.</p>
+        <p class="covers">Detections <b>#3</b> and <b>#4</b></p>
+      </article>
+      <article class="exit">
+        <h3>The browser</h3>
+        <p>Data pasted into an AI chat, uploaded to personal cloud storage or sent from webmail. Paste sites and file-sharing sites one tab away.</p>
+        <p class="covers">Detections <b>#5</b> to <b>#8</b></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== how it works -->
+<section class="section" id="how">
+  <div class="wrap">
+    <p class="kicker">How it works</p>
+    <h2>Three proven open-source stacks, with the DLP logic on top.</h2>
+    <p class="intro">ARGUS is not a new endpoint agent written from scratch. It combines Microsoft Sysmon for kernel telemetry and Wazuh for collection, rules and dashboards, then adds the part they lack: knowing what data is sensitive and where it is going.</p>
+
+    <div class="flow" role="list">
+      <div class="flow-col" role="listitem">
+        <p class="flow-h">On every laptop</p>
+        <div class="node"><b>Sysmon</b><span>Process, file, DNS and network activity from the Windows kernel, tuned for low noise.</span></div>
+        <div class="node accent"><b>Argus Agent</b><span>Clipboard, USB, removable files, app usage and content inspection. Card, PAN, Aadhaar and credential recognisers run locally.</span></div>
+        <div class="node"><b>Browser extension</b><span>Chrome and Edge: site visits, time on site, and a guard on pastes and uploads to risky sites.</span></div>
+      </div>
+      <div class="flow-arrow" aria-hidden="true"></div>
+      <div class="flow-col" role="listitem">
+        <p class="flow-h">One path out</p>
+        <div class="node"><b>One event file</b><span>Every ARGUS event goes to a single local file. Nothing else talks to the server.</span></div>
+        <div class="node"><b>Wazuh agent</b><span>Ships Sysmon events and the ARGUS file to your server over TLS (port 1514).</span></div>
+      </div>
+      <div class="flow-arrow" aria-hidden="true"></div>
+      <div class="flow-col" role="listitem">
+        <p class="flow-h">On your server</p>
+        <div class="node"><b>Wazuh manager</b><span>ARGUS rules 110000–110999 turn events into alerts, with lookup lists for blocked sites and approved USB drives.</span></div>
+        <div class="node"><b>Indexer and dashboards</b><span>ARGUS Overview, Insider Risk and DLP Events dashboards for the security team.</span></div>
+      </div>
+    </div>
+
+    <div class="split">
+      <div>
+        <h3>Built so the parts never fight</h3>
+        <ul class="ticks">
+          <li><b>One owner per signal.</b> Sysmon owns kernel telemetry; ARGUS never opens a second copy of it.</li>
+          <li><b>One clipboard reader.</b> Only the ARGUS user agent reads the clipboard; the browser extension never does.</li>
+          <li><b>One way into Wazuh.</b> A single event file, no calls to the Wazuh API, no changes to its configuration.</li>
+          <li><b>No open ports.</b> The local inspector listens on 127.0.0.1 only. Nothing on the laptop is reachable from the network.</li>
+          <li><b>One alert per incident.</b> Supporting signals add context to an alert instead of raising a second one.</li>
+          <li><b>One enforcer per surface.</b> The extension guards the browser; Wazuh responses handle USB and processes.</li>
+        </ul>
+      </div>
+      <figure class="event">
+        <figcaption>What an alert carries: type and count, never the text <span class="tag-sample">Sample event</span></figcaption>
+<pre><code>{"argus":{
+  "category": "content_match",
+  "severity": "critical",
+  "policy_id": "dlp.pci.card-numbers",
+  "detail": {
+    "recognizer": "CREDIT_CARD",
+    "count": 3,
+    "where": "clipboard",
+    "engine": "presidio"
+  }
+}}</code></pre>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== detections -->
+<section class="section" id="detections">
+  <div class="wrap">
+    <p class="kicker">Detections</p>
+    <h2>Ten detections. Each raises exactly one alert.</h2>
+    <p class="intro">Every detection maps to one alert-bearing Wazuh rule with a fixed severity, so the security team sees one alert per incident. Levels follow Wazuh: 15 is critical, 12 high, 8 medium, 5 and 3 informational.</p>
+    <div class="table-scroll">
+      <table class="det">
+        <thead><tr><th scope="col">#</th><th scope="col">Detection</th><th scope="col">What triggers it</th><th scope="col">Rule</th><th scope="col">Level</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Production data into a local app</td><td>Copied from a production tool (SSMS, psql, DBeaver, RDP…) and pasted into Notepad, or saved by an editor</td><td class="mono">110110 · 110111</td><td><span class="lvl l12">12</span></td></tr>
+          <tr><td>2</td><td>Sensitive data in any app</td><td>Card, Aadhaar, PAN, IFSC, account numbers, connection strings or credentials found in clipboard or files</td><td class="mono">110120–110129</td><td><span class="lvl l12">12</span> <span class="lvl l15">15</span></td></tr>
+          <tr><td>3</td><td>Production data to USB</td><td>A file with production lineage written to a removable drive; critical when it contains critical data</td><td class="mono">110210 · 110211</td><td><span class="lvl l12">12</span> <span class="lvl l15">15</span></td></tr>
+          <tr><td>4</td><td>Unapproved USB device</td><td>USB storage that is not on the approved list</td><td class="mono">110220</td><td><span class="lvl l8">8</span></td></tr>
+          <tr><td>5</td><td>Blocked website</td><td>A visit to a site on the blocklist, such as paste and file-sharing sites</td><td class="mono">110310</td><td><span class="lvl l8">8</span></td></tr>
+          <tr><td>6</td><td>Repeated visits</td><td>Ten or more visits to the same site within an hour</td><td class="mono">110320</td><td><span class="lvl l5">5</span></td></tr>
+          <tr><td>7</td><td>Long time on one site</td><td>An hour or more on a single site</td><td class="mono">110330</td><td><span class="lvl l3">3</span></td></tr>
+          <tr><td>8</td><td>Sensitive paste or upload</td><td>Sensitive data pasted or uploaded to webmail, personal cloud or AI chat sites</td><td class="mono">110340 · 110341</td><td><span class="lvl l12">12</span> <span class="lvl l15">15</span></td></tr>
+          <tr><td>9</td><td>After-hours use</td><td>Application use between 8 pm and 7 am, or at weekends</td><td class="mono">110410 · 110411</td><td><span class="lvl l5">5</span></td></tr>
+          <tr><td>10</td><td>Tamper attempt</td><td>The ARGUS service stopped outside maintenance, or killed and restarted</td><td class="mono">110910</td><td><span class="lvl l15">15</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== control -->
+<section class="section" id="control">
+  <div class="wrap">
+    <p class="kicker">Control</p>
+    <h2>Detect first. Block when you decide to.</h2>
+    <p class="intro">A false block stops someone's work; a false alert costs an analyst a minute. So every blocking feature ships switched off and is turned on per policy.</p>
+    <div class="cols2">
+      <article class="card">
+        <h3>Browser paste and upload guard</h3>
+        <p>For each site class (webmail, personal cloud, AI chat) choose <b>detect</b>, <b>warn</b> or <b>block</b>. On warn, the user sees why and decides; on block, the paste or upload is dropped.</p>
+      </article>
+      <article class="card">
+        <h3>Disable USB storage</h3>
+        <p>After a critical USB copy, new USB storage cannot mount for one hour, then it is restored automatically. Run by Wazuh active response.</p>
+      </article>
+      <article class="card">
+        <h3>Stop the copying process</h3>
+        <p>The program that copied the data is stopped. System, security, Wazuh, Sysmon and ARGUS processes are never touched.</p>
+      </article>
+      <article class="card">
+        <h3>Notify the security team</h3>
+        <p>High-severity alerts post a one-line summary to a Teams, Slack or other HTTPS webhook.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== privacy -->
+<section class="section" id="privacy">
+  <div class="wrap">
+    <p class="kicker">Privacy</p>
+    <h2>Monitoring people can read.</h2>
+    <p class="intro">ARGUS is built for disclosure, not stealth. A visible icon sits in every employee's notification area, and opening it shows exactly what this deployment collects. The installer shows an employee notice too.</p>
+    <div class="cols2">
+      <div class="card">
+        <h3>Collected</h3>
+        <ul class="plain">
+          <li>Sensitive-data matches in the clipboard: the type and size only</li>
+          <li>Applications in use and for how long; window titles only as an unreadable fingerprint</li>
+          <li>Websites in managed browsers: the site address without query details, time on site</li>
+          <li>USB storage connected and files copied to it</li>
+        </ul>
+      </div>
+      <div class="card never">
+        <h3>Never collected</h3>
+        <ul class="plain">
+          <li>Keystrokes</li>
+          <li>The text a person copies</li>
+          <li>The contents of their files</li>
+          <li>Anything from personal devices</li>
+        </ul>
+        <p class="small">Screenshots are off unless your organisation turns them on for serious data-loss events, and then at most one every five minutes.</p>
+      </div>
+    </div>
+    <div class="table-scroll">
+      <table class="det profiles">
+        <caption>Privacy profiles. A profile can only switch captures off, never on.</caption>
+        <thead><tr><th scope="col">Profile</th><th scope="col">For</th><th scope="col">What changes</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">default</td><td>Any deployment</td><td>Minimization defaults: every optional capture off</td></tr>
+          <tr><td class="mono">eu-strict</td><td>Staff covered by GDPR</td><td>Application-usage tracking off; shorter retention recommended</td></tr>
+          <tr><td class="mono">in-dpdp</td><td>India, DPDP Act 2023</td><td>Minimization defaults, prior notice to employees</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== trust -->
+<section class="section" id="trust">
+  <div class="wrap">
+    <p class="kicker">Trust</p>
+    <h2>Hard to switch off. Impossible to forge.</h2>
+    <div class="cols2">
+      <article class="card">
+        <h3>Tamper protection</h3>
+        <ul class="plain">
+          <li>Only the installer, Intune or Group Policy can stop, reconfigure or remove the ARGUS services. Local administrators are refused.</li>
+          <li>If the process is killed, Windows restarts it and ARGUS raises a critical tamper alert.</li>
+          <li>Windows' own logs back this up: service crashes, start-type changes, uninstalls and stop commands are all recorded.</li>
+          <li>File and registry integrity monitoring watches the ARGUS folders and service settings.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h3>Signed policy</h3>
+        <ul class="plain">
+          <li>One policy file defines blocked sites, site classes, approved USB drives and modes. It produces both the server lookup lists and the laptop policy, so they never drift.</li>
+          <li>Policy is signed with ECDSA P-256. Laptops accept only signed policy.</li>
+          <li>Tampered, unsigned or older policy is rejected, the last good policy stays in force, and the rejection becomes an alert.</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== deploy -->
+<section class="section" id="deploy">
+  <div class="wrap">
+    <p class="kicker">Deploy</p>
+    <h2>One installer. Three ways to roll it out.</h2>
+    <p class="intro"><code>ArgusSetup.exe</code> (about 140 MB) installs everything a laptop needs: the Wazuh agent pointed at your server, the ARGUS services, the local inspector, browser registration and the optional responses. It installs silently:</p>
+    <div class="cmd"><code>ArgusSetup.exe /quiet /norestart WAZUH_MANAGER=&lt;your server&gt;</code><button class="copy" type="button" data-copy="ArgusSetup.exe /quiet /norestart WAZUH_MANAGER=">Copy</button></div>
+    <div class="cols3">
+      <article class="card"><h3>Intune</h3><p>A ready Win32 app package and detection script. Assign to a pilot group first.</p></article>
+      <article class="card"><h3>Group Policy</h3><p>A startup script installs or upgrades from a file share after checking the file's hash and signature.</p></article>
+      <article class="card"><h3>Ansible</h3><p>Brings up the Wazuh server: kernel setting, secrets from Ansible Vault, the bootstrap script.</p></article>
+    </div>
+    <div class="table-scroll">
+      <table class="det">
+        <caption>What a pilot needs</caption>
+        <thead><tr><th scope="col">Item</th><th scope="col">Requirement</th></tr></thead>
+        <tbody>
+          <tr><td>Laptops</td><td>Windows 10 or 11, 64-bit</td></tr>
+          <tr><td>Server</td><td>Linux with Docker; 4 vCPU, 8 GB RAM, 50 GB SSD for a pilot of about 50 laptops</td></tr>
+          <tr><td>Network</td><td>Laptops to server on 1514/tcp (events, TLS) and 1515/tcp (enrolment); analysts on 443. Laptops open no ports.</td></tr>
+          <tr><td>Footprint target</td><td>Under 2% of one CPU core and 150 MB of RAM; a watchdog throttles ARGUS if it ever exceeds its budget</td></tr>
+          <tr><td>Before go-live</td><td>A code-signing certificate, the browser extension ID, and the employee notice agreed with HR and legal</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== proof -->
+<section class="section" id="proof">
+  <div class="wrap">
+    <p class="kicker">Proof</p>
+    <h2>Numbers you can re-run yourself.</h2>
+    <p class="intro">Results from the build of 29 October 2026. Every number comes with the command that produces it.</p>
+    <div class="proof">
+      <div class="pf"><b>236/236</b><span>unit and contract tests pass</span><code>dotnet test agent/Argus.sln</code></div>
+      <div class="pf"><b>46</b><span>rule test cases, ready for Wazuh replay in CI</span><code>python platform/tests/run_golden.py</code></div>
+      <div class="pf"><b>10/10</b><span>detections mapped to one alert rule each</span><code>platform/custom-rules/argus_rules.xml</code></div>
+      <div class="pf"><b>0</b><span>build warnings (warnings are treated as errors)</span><code>dotnet build agent/Argus.sln</code></div>
+      <div class="pf"><b>10</b><span>design rules checked automatically</span><code>python scripts/lint/check_contract.py</code></div>
+      <div class="pf"><b>40</b><span>third-party components pinned by version and hash</span><code>python scripts/lint/check_pins.py</code></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== films -->
+<section class="section films" id="films">
+  <div class="wrap">
+    <p class="kicker">Film library</p>
+    <h2>See each capability in under 30 seconds.</h2>
+    <div data-library>
+      <p class="tour-empty">Loading films…</p>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== next -->
+<section class="section" id="next">
+  <div class="wrap">
+    <p class="kicker">Roadmap</p>
+    <h2>What comes next.</h2>
+    <ul class="ticks next">
+      <li><b>Performance gate in CI.</b> The runtime watchdog already enforces the budget; the next step fails a build that exceeds it.</li>
+      <li><b>Automatic retention.</b> Alerts kept for 90 days and routine telemetry for 30, deleted automatically on the server.</li>
+      <li><b>Pseudonymous analyst view.</b> Analysts work with masked names; a named view is unlocked only for investigations.</li>
+      <li><b>Blocking before the write.</b> A kernel driver to stop USB copies before they complete. The integration point is already in the agent.</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <div class="brand"><img src="assets/img/argus.svg" alt="" width="28" height="28"><span>ARGUS</span></div>
+    <p>Version 0.6.0. Built on Wazuh, Microsoft Sysmon and Microsoft Presidio. Agent dependencies are permissively licensed; Wazuh runs as a separate program. Runs entirely on your own infrastructure.</p>
+  </div>
+</footer>
+
+<script src="batches/manifest.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

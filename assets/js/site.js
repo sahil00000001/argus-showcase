@@ -234,6 +234,36 @@
       `<span class="th"><img src="${b}/posters/${k}.png" alt="" loading="lazy" width="640" height="360"></span><span class="nm"><span>${n}</span>${t}</span></a>`).join('');
   });
 
+  /* ------------------------------------------------------------ feature films */
+  /* A film inside the section it explains: <figure data-ffilm="03-the-usb-stick"></figure>.
+     Optional: data-t="65,95" plays one chapter of a longer film; data-title, data-label, data-poster override. */
+  const FILMS = {};
+  ((window.ARGUS_DATA && ARGUS_DATA.films) || []).forEach(([b, k, n, t, d]) => { FILMS[k] = { b, k, n, t, d }; });
+  const mmss = (s) => Math.floor(s / 60) + ':' + String(Math.round(s % 60)).padStart(2, '0');
+  function renderFilms(root = document) {
+    $$('[data-ffilm]', root).forEach((fig) => {
+      if (fig.dataset.done) return;
+      const f = FILMS[fig.dataset.ffilm];
+      if (!f) return;
+      fig.dataset.done = '1';
+      const seg = fig.dataset.t;
+      const len = seg ? seg.split(',').reduce((a, b) => b - a) : f.d;
+      const title = fig.dataset.title || f.t, label = fig.dataset.label || f.n;
+      const poster = fig.dataset.poster || `${f.b}/posters/${f.k}.png`;
+      fig.classList.add('ffilm');
+      fig.innerHTML = `<div class="ff-frame"><video preload="none" playsinline poster="${poster}" src="${f.b}/videos/${f.k}.mp4${seg ? '#t=' + seg : ''}"></video>` +
+        `<button class="ff-play" type="button" aria-label="Play ${title}, ${mmss(len)}"><span class="pl" aria-hidden="true"></span>` +
+        `<span class="ff-lab"><span>${label} · ${mmss(len)}</span><b>${title}</b></span></button></div>`;
+      const v = $('video', fig), btn = $('.ff-play', fig);
+      btn.addEventListener('click', () => { btn.hidden = true; v.controls = true; v.play().catch(() => {}); });
+      v.addEventListener('ended', () => { v.controls = false; btn.hidden = false; v.load(); });
+    });
+  }
+  renderFilms();
+  window.ARGUS_SITE.renderFilms = renderFilms;
+  // one video at a time, anywhere on the site
+  document.addEventListener('play', (e) => { $$('video').forEach((v) => { if (v !== e.target && !v.paused) v.pause(); }); }, true);
+
   /* ------------------------------------------------------------ film modal */
   $$('[data-film]').forEach((a) => a.addEventListener('click', (e) => {
     e.preventDefault();

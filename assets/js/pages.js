@@ -109,8 +109,9 @@
         `<ol class="story">${d.story.map((s, i) => `<li style="--i:${i}">${s}</li>`).join('')}</ol></div>` +
         `<div class="card"><dl class="kv"><dt>Level</dt><dd>${lvls(d.levels)}</dd><dt>Rules</dt><dd class="mono">${d.rules}</dd><dt>Signal from</dt><dd>${d.signal}</dd>` +
         `<dt>Recorded</dt><dd>${d.recorded}</dd><dt>Response</dt><dd>${d.response}</dd></dl>` +
-        `<div class="cta-row" style="margin-top:20px"><a class="btn small" href="films.html#film-${d.film}">Watch the film <span class="arr">→</span></a>` +
-        (d.n === 2 || d.n === 8 ? '<a class="btn small primary" href="demo.html">Try it live <span class="arr">→</span></a>' : '') + '</div></div>';
+        `<figure data-ffilm="${d.film}" style="margin-top:22px"></figure>` +
+        (d.n === 2 || d.n === 8 ? '<div class="cta-row" style="margin-top:18px"><a class="btn small primary" href="demo.html">Try it live <span class="arr">→</span></a></div>' : '') + '</div>';
+      window.ARGUS_SITE.renderFilms(drawer);
       drawer.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
     };
     grid.addEventListener('click', (e) => { const c = e.target.closest('.dcard'); if (c && !c.classList.contains('dim')) open(+c.dataset.n); });

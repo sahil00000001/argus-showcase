@@ -16,10 +16,13 @@
 
 <main id="main">
 <section class="phero">
-  <div class="wrap">
-    <p class="crumbs">ARGUS / Platform</p>
-    <h1>One agent on the laptop. <span class="grad">Everything else on your servers.</span></h1>
-    <p class="intro">ARGUS doesn't reinvent the endpoint agent. It builds on Microsoft Sysmon for kernel telemetry and Wazuh for collection, rules and dashboards, then adds what they lack: knowing which data is sensitive and where it is going.</p>
+  <div class="wrap phero-grid">
+    <div>
+      <p class="crumbs">ARGUS / Platform</p>
+      <h1>One agent on the laptop. <span class="grad">Everything else on your servers.</span></h1>
+      <p class="intro">ARGUS doesn't reinvent the endpoint agent. It builds on Microsoft Sysmon for kernel telemetry and Wazuh for collection, rules and dashboards, then adds what they lack: knowing which data is sensitive and where it is going.</p>
+    </div>
+    <figure data-ffilm="01-what-is-argus"></figure>
   </div>
 </section>
 
@@ -98,9 +101,12 @@
 
 <section class="section line">
   <div class="wrap">
-    <p class="kicker">Proof</p>
-    <h2>Numbers you can re-run yourself.</h2>
-    <p class="intro">Results from the build of 29 October 2026. Every number comes with the command that produces it.</p>
+    <div class="sec-film">
+      <div><p class="kicker">Proof</p>
+      <h2>Numbers you can re-run yourself.</h2>
+      <p class="intro">Results from the build of 29 October 2026. Every number comes with the command that produces it.</p></div>
+      <figure data-ffilm="10-proof-not-promises"></figure>
+    </div>
     <div class="cols3">
       <div class="stat" data-reveal><b data-count="236" data-suf="/236">236/236</b><span>unit and contract tests pass · <code>dotnet test agent/Argus.sln</code></span></div>
       <div class="stat" data-reveal style="--d:1"><b data-count="46">46</b><span>rule test cases, ready for Wazuh replay · <code>python platform/tests/run_golden.py</code></span></div>

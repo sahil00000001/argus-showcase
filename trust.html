@@ -16,10 +16,13 @@
 
 <main id="main">
 <section class="phero">
-  <div class="wrap">
-    <p class="crumbs">ARGUS / Trust</p>
-    <h1>Easy to explain. Hard to switch off. <span class="grad">Impossible to forge.</span></h1>
-    <p class="intro">Three things make monitoring acceptable to employees and useful to auditors: people can see what is collected, the agent can't be quietly disabled, and nobody can slip it a fake policy. Try all three below.</p>
+  <div class="wrap phero-grid">
+    <div>
+      <p class="crumbs">ARGUS / Trust</p>
+      <h1>Easy to explain. Hard to switch off. <span class="grad">Impossible to forge.</span></h1>
+      <p class="intro">Three things make monitoring acceptable to employees and useful to auditors: people can see what is collected, the agent can't be quietly disabled, and nobody can slip it a fake policy. Try all three below.</p>
+    </div>
+    <figure data-ffilm="06-watching-without-spying"></figure>
   </div>
 </section>
 
@@ -67,6 +70,7 @@
           <li><b>Windows' own logs back this up:</b> service crashes, start-type changes, uninstalls and stop commands are all recorded.</li>
           <li><b>File and registry integrity monitoring</b> watches the ARGUS folders and service settings.</li>
         </ul>
+        <figure data-ffilm="07-try-to-switch-it-off" style="margin-top:28px"></figure>
       </div>
       <div class="term" data-reveal>
         <div class="term-h"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>Administrator: Windows PowerShell (simulation)</div>
@@ -85,9 +89,12 @@
 
 <section class="section line" id="signed">
   <div class="wrap">
-    <p class="kicker">Signed policy</p>
-    <h2>Change one character and the laptop refuses it.</h2>
-    <p class="intro">One policy file defines the site block list, the site classes, the USB approve list and the modes. It is signed with ECDSA P-256, and laptops accept only signed policy. Below, this page has just signed the policy with a real P-256 key in your browser. Edit it and the signature check runs again.</p>
+    <div class="sec-film">
+      <div><p class="kicker">Signed policy</p>
+      <h2>Change one character and the laptop refuses it.</h2>
+      <p class="intro">One policy file defines the site block list, the site classes, the USB approve list and the modes. It is signed with ECDSA P-256, and laptops accept only signed policy. Below, this page has just signed the policy with a real P-256 key in your browser. Edit it and the signature check runs again.</p></div>
+      <figure data-ffilm="08-policy-you-can-trust"></figure>
+    </div>
     <div class="sig">
       <div class="panel">
         <div class="panel-h"><span>Policy excerpt</span><button class="copy" type="button" data-restore>Restore</button></div>

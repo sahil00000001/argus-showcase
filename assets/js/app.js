@@ -166,7 +166,7 @@
       video(b.base + 'videos/' + f.key + '.mp4', b.base + 'posters/' + f.key + '.png', f.title),
       el('div', { className: 'film-body' }, [
         el('div', { className: 'film-meta' }, [
-          el('span', { className: 'n', textContent: 'Film ' + f.n }),
+          el('span', { className: 'n', textContent: f.label || 'Film ' + f.n }),
           el('span', { className: 'topic', textContent: (b.topics || {})[f.topic] || f.topic }),
           el('span', { className: 'dur', textContent: clock(f.duration) }),
         ]),

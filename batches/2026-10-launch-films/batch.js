@@ -91,7 +91,7 @@ ARGUS.registerBatch({
     {
       n: '08', key: '08-policy-you-can-trust', topic: 'trust', duration: 26.6,
       title: 'Policy you can trust',
-      hook: 'Who changed the blocklist last Tuesday?',
+      hook: 'Who changed the block list last Tuesday?',
       audience: 'Compliance, IT governance',
       shows: 'One policy file produces both the server lookup lists and the laptop policy. The policy is signed and verified; after it is edited, verification fails with “signature invalid” and laptops keep their last good policy.',
     },

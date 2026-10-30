@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ARGUS · Data-loss prevention</title>
-<meta name="description" content="ARGUS is self-hosted data-loss prevention for company Windows laptops: ten detections, local content inspection, optional blocking, privacy by default, one signed installer.">
+<meta name="description" content="ARGUS is self-hosted data-loss prevention for company Windows laptops. It recognises sensitive data on the laptop, raises one alert per incident on your own servers, and shows every employee what it collects.">
 <link rel="icon" href="assets/img/argus.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/css/fonts.css">
 <link rel="stylesheet" href="assets/css/style.css">
@@ -16,13 +16,13 @@
   <div class="wrap top-in">
     <a class="brand" href="#top" aria-label="ARGUS home"><img src="assets/img/argus.svg" alt="" width="34" height="34"><span>ARGUS</span></a>
     <nav class="nav" aria-label="Sections">
+      <a href="#uses">Use cases</a>
       <a href="#how">How it works</a>
       <a href="#detections">Detections</a>
-      <a href="#control">Control</a>
+      <a href="#compare">Compare</a>
       <a href="#privacy">Privacy</a>
       <a href="#trust">Trust</a>
       <a href="#deploy">Deploy</a>
-      <a href="#proof">Proof</a>
       <a href="#films" class="nav-films">Films</a>
     </nav>
   </div>
@@ -30,28 +30,36 @@
 
 <main id="main">
 
-<!-- ======================================================== hero + tour -->
+<!-- ======================================================== hero + flagship film -->
 <section class="hero" id="top">
   <div class="wrap">
     <p class="eyebrow">Self-hosted data-loss prevention for Windows laptops</p>
-    <h1>Know when data walks out the door.</h1>
-    <p class="lede">ARGUS watches the places company data actually leaves a laptop: the clipboard, USB drives and the browser. It recognises card numbers, PAN, Aadhaar, credentials and production data on the laptop itself, raises one clear alert per incident on your own servers, and tells every employee exactly what it collects.</p>
+    <h1>Eyes on your data. In plain sight of your people.</h1>
+    <p class="lede">ARGUS catches company data at the moment it leaves a laptop: on the clipboard, onto a USB drive, or into a browser tab. It recognises card numbers, PAN, Aadhaar, credentials and production data on the laptop itself. It raises one clear alert per incident on your own servers, and it shows every employee exactly what it collects.</p>
     <div class="cta-row">
-      <a class="btn primary" href="#tour">Watch the 4-minute tour</a>
-      <a class="btn" href="#detections">See the ten detections</a>
+      <a class="btn primary" href="#tour">Watch the 2:30 film</a>
+      <a class="btn" href="#pilot">Plan a pilot</a>
     </div>
-    <ul class="facts" aria-label="ARGUS at a glance">
-      <li><b>10</b><span>detections, one alert each</span></li>
-      <li><b>1</b><span>signed installer for every laptop</span></li>
-      <li><b>0</b><span>laptop ports reachable from the network</span></li>
-      <li><b>100%</b><span>on your servers, no cloud service</span></li>
+    <ul class="pillars" aria-label="Three things ARGUS is built on">
+      <li><b>Inspected on the laptop</b><span>Content checks run locally. An alert carries the type and count of what was found, never the text itself.</span></li>
+      <li><b>Kept on your servers</b><span>Built on Wazuh and Microsoft Sysmon. No vendor cloud, and no laptop port reachable from the network.</span></li>
+      <li><b>Visible to your people</b><span>A tray icon shows each employee what this deployment collects. Blocking stays off until you switch it on.</span></li>
     </ul>
   </div>
 
   <div class="wrap" id="tour">
     <div class="tour" data-tour>
-      <p class="tour-empty">The product tour loads from the film library. If it does not appear, check that <code>batches/manifest.js</code> lists a batch.</p>
+      <p class="tour-empty">The film loads from the film library. If it does not appear, check that <code>batches/manifest.js</code> lists a batch.</p>
     </div>
+  </div>
+
+  <div class="wrap">
+    <ul class="facts" aria-label="ARGUS at a glance">
+      <li><b>10</b><span>detections, one alert each</span></li>
+      <li><b>1</b><span>signed installer for every laptop</span></li>
+      <li><b>0</b><span>laptop ports reachable from the network</span></li>
+      <li><b>&lt;2%</b><span>of one CPU core: the agent's budget, enforced by a watchdog</span></li>
+    </ul>
   </div>
 </section>
 
@@ -68,13 +76,53 @@
       </article>
       <article class="exit">
         <h3>USB drives</h3>
-        <p>A customer export copied to a personal stick on someone's last week. By the time anyone asks, the file and the stick are gone.</p>
+        <p>A customer export copied to a personal stick in someone's last week. By the time anyone asks, the file and the stick are gone.</p>
         <p class="covers">Detections <b>#3</b> and <b>#4</b></p>
       </article>
       <article class="exit">
         <h3>The browser</h3>
-        <p>Data pasted into an AI chat, uploaded to personal cloud storage or sent from webmail. Paste sites and file-sharing sites one tab away.</p>
+        <p>Data pasted into an AI chat, uploaded to personal cloud storage or sent from webmail. Paste sites and file-sharing sites are one tab away.</p>
         <p class="covers">Detections <b>#5</b> to <b>#8</b></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== use cases -->
+<section class="section" id="uses">
+  <div class="wrap">
+    <p class="kicker">Use cases</p>
+    <h2>The five leaks security teams ask us about first.</h2>
+    <div class="uses">
+      <article class="use">
+        <p class="use-n">01</p>
+        <h3>Customer data pasted into AI chat</h3>
+        <p>ARGUS spots card numbers, PAN and Aadhaar in a paste or upload to an AI chat, webmail or personal cloud site. You choose per site class whether to detect, warn or block.</p>
+        <p class="use-foot">Detection #8 · <a href="#film-04">Film: The AI chat box</a></p>
+      </article>
+      <article class="use">
+        <p class="use-n">02</p>
+        <h3>An export walking out on USB</h3>
+        <p>A file with production lineage written to a removable drive raises an alert, and a critical one when it holds critical data. If you switch the response on, new USB storage stays off for one hour.</p>
+        <p class="use-foot">Detections #3, #4 · <a href="#film-03">Film: The USB stick</a></p>
+      </article>
+      <article class="use">
+        <p class="use-n">03</p>
+        <h3>Production data leaving production</h3>
+        <p>Rows copied from SSMS, psql, DBeaver or a remote desktop and pasted into a local app are caught on the laptop, before the file is ever shared.</p>
+        <p class="use-foot">Detection #1 · <a href="#film-02">Film: Copy, paste, caught</a></p>
+      </article>
+      <article class="use">
+        <p class="use-n">04</p>
+        <h3>Early signs of insider risk</h3>
+        <p>Visits to sites on the block list, the same site again and again, an hour on one site, or work at 2 AM. Each is a low-level signal on its own, and the Insider Risk dashboard puts them together.</p>
+        <p class="use-foot">Detections #5, #6, #7, #9 · <a href="#film-05">Film: Ten detections</a></p>
+      </article>
+      <article class="use">
+        <p class="use-n">05</p>
+        <h3>Monitoring you can explain</h3>
+        <p>Privacy profiles for GDPR and India's DPDP Act, an employee notice in the installer, and a tray panel listing what is collected. Your auditors and your employees see the same answer.</p>
+        <p class="use-foot">Privacy profiles · <a href="#film-06">Film: Watching without spying</a></p>
       </article>
     </div>
   </div>
@@ -84,8 +132,8 @@
 <section class="section" id="how">
   <div class="wrap">
     <p class="kicker">How it works</p>
-    <h2>Three proven open-source stacks, with the DLP logic on top.</h2>
-    <p class="intro">ARGUS is not a new endpoint agent written from scratch. It combines Microsoft Sysmon for kernel telemetry and Wazuh for collection, rules and dashboards, then adds the part they lack: knowing what data is sensitive and where it is going.</p>
+    <h2>Proven open-source foundations, with the data-loss logic on top.</h2>
+    <p class="intro">ARGUS doesn't reinvent the endpoint agent. It builds on Microsoft Sysmon for kernel telemetry and Wazuh for collection, rules and dashboards, then adds what they lack: knowing which data is sensitive and where it is going.</p>
 
     <div class="flow" role="list">
       <div class="flow-col" role="listitem">
@@ -103,7 +151,7 @@
       <div class="flow-arrow" aria-hidden="true"></div>
       <div class="flow-col" role="listitem">
         <p class="flow-h">On your server</p>
-        <div class="node"><b>Wazuh manager</b><span>ARGUS rules 110000–110999 turn events into alerts, with lookup lists for blocked sites and approved USB drives.</span></div>
+        <div class="node"><b>Wazuh manager</b><span>ARGUS rules 110000–110999 turn events into alerts, using a block list of sites and an approve list of USB drives.</span></div>
         <div class="node"><b>Indexer and dashboards</b><span>ARGUS Overview, Insider Risk and DLP Events dashboards for the security team.</span></div>
       </div>
     </div>
@@ -151,8 +199,8 @@
           <tr><td>1</td><td>Production data into a local app</td><td>Copied from a production tool (SSMS, psql, DBeaver, RDP…) and pasted into Notepad, or saved by an editor</td><td class="mono">110110 · 110111</td><td><span class="lvl l12">12</span></td></tr>
           <tr><td>2</td><td>Sensitive data in any app</td><td>Card, Aadhaar, PAN, IFSC, account numbers, connection strings or credentials found in clipboard or files</td><td class="mono">110120–110129</td><td><span class="lvl l12">12</span> <span class="lvl l15">15</span></td></tr>
           <tr><td>3</td><td>Production data to USB</td><td>A file with production lineage written to a removable drive; critical when it contains critical data</td><td class="mono">110210 · 110211</td><td><span class="lvl l12">12</span> <span class="lvl l15">15</span></td></tr>
-          <tr><td>4</td><td>Unapproved USB device</td><td>USB storage that is not on the approved list</td><td class="mono">110220</td><td><span class="lvl l8">8</span></td></tr>
-          <tr><td>5</td><td>Blocked website</td><td>A visit to a site on the blocklist, such as paste and file-sharing sites</td><td class="mono">110310</td><td><span class="lvl l8">8</span></td></tr>
+          <tr><td>4</td><td>USB drive not on the approve list</td><td>USB storage that is not on the approve list</td><td class="mono">110220</td><td><span class="lvl l8">8</span></td></tr>
+          <tr><td>5</td><td>Site on the block list</td><td>A visit to a site on the block list, such as paste and file-sharing sites</td><td class="mono">110310</td><td><span class="lvl l8">8</span></td></tr>
           <tr><td>6</td><td>Repeated visits</td><td>Ten or more visits to the same site within an hour</td><td class="mono">110320</td><td><span class="lvl l5">5</span></td></tr>
           <tr><td>7</td><td>Long time on one site</td><td>An hour or more on a single site</td><td class="mono">110330</td><td><span class="lvl l3">3</span></td></tr>
           <tr><td>8</td><td>Sensitive paste or upload</td><td>Sensitive data pasted or uploaded to webmail, personal cloud or AI chat sites</td><td class="mono">110340 · 110341</td><td><span class="lvl l12">12</span> <span class="lvl l15">15</span></td></tr>
@@ -161,6 +209,52 @@
         </tbody>
       </table>
     </div>
+  </div>
+</section>
+
+<!-- ======================================================== compare -->
+<section class="section" id="compare">
+  <div class="wrap">
+    <p class="kicker">Compare</p>
+    <h2>Where ARGUS fits among data-protection tools.</h2>
+    <p class="intro">Most tools that protect data on laptops do one of two jobs well. Some understand the data, but they are heavy to run or send your evidence to someone else's cloud. Others are light, but they watch people or logs rather than the data itself. ARGUS is built to do both: understand the data, and stay light, self-hosted and open with employees.</p>
+
+    <div class="compare">
+      <figure class="pos">
+        <figcaption class="pos-cap"><b>Positioning by product category</b><span>Hover over or tap a point for the reasoning.</span></figcaption>
+        <div class="pos-frame">
+          <p class="pos-y" aria-hidden="true">Understands the data →</p>
+          <div class="pos-plot" role="list" aria-label="Positioning chart: five product categories placed by how well they understand content and how light, self-hosted and private they are">
+            <span class="q q1" aria-hidden="true">Capable, but heavy</span>
+            <span class="q q2" aria-hidden="true">Capable and light</span>
+            <span class="q q3" aria-hidden="true">Watches people, not data</span>
+            <span class="q q4" aria-hidden="true">Light, but blind to content</span>
+            <button class="pt" type="button" role="listitem" style="--x:16;--y:80"><i></i><span class="lb">Legacy DLP suites</span><span class="tt">Deep content inspection and blocking. Usually a large on-premises suite with agents, servers and policy work that take months to roll out.</span></button>
+            <button class="pt" type="button" role="listitem" style="--x:34;--y:64"><i></i><span class="lb">Cloud DLP platforms</span><span class="tt">Strong content inspection, delivered as a service. Evidence and alert data typically live in the vendor's cloud, not on your servers.</span></button>
+            <button class="pt" type="button" role="listitem" style="--x:20;--y:20"><i></i><span class="lb">Employee monitoring</span><span class="tt">Screenshots, keystrokes and activity timelines. Watches what people do rather than which data moves, and is often hard to explain to employees.</span></button>
+            <button class="pt r" type="button" role="listitem" style="--x:66;--y:24"><i></i><span class="lb">A SIEM on its own</span><span class="tt">Collects every log, on your own infrastructure if you choose. It sees that a file moved, but not whether the file held card numbers.</span></button>
+            <button class="pt us r" type="button" role="listitem" style="--x:84;--y:84"><i></i><span class="lb">ARGUS</span><span class="tt">Recognises card, PAN, Aadhaar and credentials on the laptop. Runs on your servers, one installer, &lt;2% of one core. Tells employees what it collects.</span></button>
+          </div>
+          <p class="pos-x" aria-hidden="true">Light, self-hosted and private →</p>
+        </div>
+      </figure>
+
+      <div class="table-scroll cmp-scroll">
+        <table class="det cmp">
+          <caption>How each category typically works. Individual products vary.</caption>
+          <thead><tr><th scope="col">What you need</th><th scope="col" class="us-col">ARGUS</th><th scope="col">Legacy DLP suites</th><th scope="col">Cloud DLP platforms</th><th scope="col">Employee monitoring</th><th scope="col">A SIEM on its own</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Recognises sensitive data (card, PAN, Aadhaar)</th><td class="us-col"><b class="y">Yes</b>, on the laptop</td><td><b class="y">Yes</b></td><td><b class="y">Yes</b>, often in the vendor cloud</td><td><b class="n">Rarely</b></td><td><b class="n">No</b>, sees logs only</td></tr>
+            <tr><th scope="row">Runs entirely on your own servers</th><td class="us-col"><b class="y">Yes</b>, no vendor cloud</td><td><b class="y">Usually</b></td><td><b class="n">No</b></td><td><b class="m">Varies</b></td><td><b class="m">Varies</b></td></tr>
+            <tr><th scope="row">Employees can see what is collected</th><td class="us-col"><b class="y">Yes</b>, in the tray panel</td><td><b class="n">Rarely</b></td><td><b class="n">Rarely</b></td><td><b class="n">Rarely</b></td><td><b class="m">Not applicable</b></td></tr>
+            <tr><th scope="row">Keystrokes and screen capture</th><td class="us-col"><b class="y">Never keystrokes</b>; screenshots off by default</td><td><b class="m">Varies</b></td><td><b class="m">Varies</b></td><td><b class="n">Often both</b></td><td><b class="y">No</b></td></tr>
+            <tr><th scope="row">Blocking</th><td class="us-col"><b class="y">Optional</b>, off by default, per site class</td><td><b class="y">Yes</b></td><td><b class="y">Yes</b></td><td><b class="n">Rarely</b></td><td><b class="n">No</b></td></tr>
+            <tr><th scope="row">Rollout</th><td class="us-col"><b class="y">One signed installer</b>; Intune or Group Policy</td><td><b class="n">Often months</b></td><td><b class="m">Days to weeks</b></td><td><b class="y">Quick</b></td><td><b class="m">Logs only</b>; content needs more tools</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="small cmp-note">This chart and table are ARGUS's own assessment of how each product category typically works. Positions are qualitative, not measured scores, and individual products in a category differ. This is not an analyst or other third-party evaluation.</p>
   </div>
 </section>
 
@@ -250,7 +344,7 @@
       <article class="card">
         <h3>Signed policy</h3>
         <ul class="plain">
-          <li>One policy file defines blocked sites, site classes, approved USB drives and modes. It produces both the server lookup lists and the laptop policy, so they never drift.</li>
+          <li>One policy file defines the site block list, the site classes, the USB approve list and the modes. It produces both the server lookup lists and the laptop policy, so they never drift.</li>
           <li>Policy is signed with ECDSA P-256. Laptops accept only signed policy.</li>
           <li>Tampered, unsigned or older policy is rejected, the last good policy stays in force, and the rejection becomes an alert.</li>
         </ul>
@@ -308,7 +402,7 @@
 <section class="section films" id="films">
   <div class="wrap">
     <p class="kicker">Film library</p>
-    <h2>See each capability in under 30 seconds.</h2>
+    <h2>The story in 2:30, then each capability in under 30 seconds.</h2>
     <div data-library>
       <p class="tour-empty">Loading films…</p>
     </div>
@@ -326,6 +420,28 @@
       <li><b>Pseudonymous analyst view.</b> Analysts work with masked names; a named view is unlocked only for investigations.</li>
       <li><b>Blocking before the write.</b> A kernel driver to stop USB copies before they complete. The integration point is already in the agent.</li>
     </ul>
+  </div>
+</section>
+
+<!-- ======================================================== pilot CTA -->
+<section class="section pilot" id="pilot">
+  <div class="wrap">
+    <div class="pilot-in">
+      <div>
+        <p class="kicker">Start small</p>
+        <h2>Run ARGUS on 50 laptops before you decide.</h2>
+        <p class="intro">A pilot needs one Linux server and a pilot group in Intune or Group Policy. Detection runs from day one with every blocking feature off, so you see what ARGUS would catch before anyone's work is affected.</p>
+      </div>
+      <ol class="steps">
+        <li><b>Stand up the server.</b><span>The Ansible playbook brings up Wazuh and the ARGUS rules and dashboards.</span></li>
+        <li><b>Roll out to a pilot group.</b><span>One signed installer, assigned through Intune or Group Policy.</span></li>
+        <li><b>Review the alerts together.</b><span>Tune the block list and site classes, then decide what to warn on or block.</span></li>
+      </ol>
+    </div>
+    <div class="cta-row">
+      <a class="btn primary" href="#deploy">See what a pilot needs</a>
+      <a class="btn" href="#tour">Watch the film again</a>
+    </div>
   </div>
 </section>
 

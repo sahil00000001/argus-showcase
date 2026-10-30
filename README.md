@@ -39,6 +39,7 @@ ARGUS-Showcase/
     img/argus.svg             the ARGUS mark
   batches/
     manifest.js               list of batch folders, newest first
+    2026-10-brand-film/       batch 2: the flagship 2:30 film (plays at the top of the page)
     2026-10-launch-films/     batch 1: 10 films + the full tour
       batch.js                all content for this batch (titles, descriptions, chapters, notes)
       README.md

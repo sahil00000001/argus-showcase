@@ -109,77 +109,129 @@
       '<path d="M121,166 L135,166 L128,174 Z" fill="#F2A08A"/><path d="M128,174 Q122,182 115,179 M128,174 Q134,182 141,179" stroke="#F5B940" stroke-width="3" fill="none" stroke-linecap="round"/>' +
       '<path d="M104,170 L40,160 M104,178 L42,186 M152,170 L216,160 M152,178 L214,186" stroke="#CFD8EA" stroke-width="2.5" opacity=".55" stroke-linecap="round"/></svg>';
   }
+  /* The cat: its eyes scan left and right on their own (or follow whatever drives them, such as the
+     orbit's scan beam), look at the cursor for a moment when it moves, and blink every second. */
+  const BLINK_MS = 1000;
   $$('[data-cat]').forEach((host) => {
     host.innerHTML = catSVG();
     const pupils = $$('.pupil', host), lids = $$('.lid', host);
-    let tx = 0, ty = 0, x = 0, y = 0, last = 0;
+    const st = { x: 0, y: 0, dx: null, dy: 0, px: 0, py: 0, pAt: -1e9 };
+    host.drive = (x, y) => { st.dx = x; st.dy = y; };
     const look = (cx, cy) => {
       const r = host.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > innerHeight) return;
       const dx = cx - (r.left + r.width / 2), dy = cy - (r.top + r.height * 0.53);
-      const d = Math.hypot(dx, dy) || 1, k = Math.min(1, d / 260);
-      tx = (dx / d) * k; ty = (dy / d) * k; last = performance.now();
+      const d = Math.hypot(dx, dy) || 1, k = Math.min(1, d / 220);
+      st.px = (dx / d) * k; st.py = (dy / d) * k; st.pAt = performance.now();
     };
     addEventListener('pointermove', (e) => look(e.clientX, e.clientY), { passive: true });
-    addEventListener('pointerdown', (e) => look(e.clientX, e.clientY), { passive: true });
-    const blink = () => { lids.forEach((l) => { l.style.transform = 'scaleY(.08)'; }); setTimeout(() => lids.forEach((l) => { l.style.transform = ''; }), 140); };
+    const shut = (v) => lids.forEach((l) => { l.style.transform = v ? 'scaleY(.06)' : ''; });
+    const blink = () => { shut(true); setTimeout(() => shut(false), 120); };
     host.addEventListener('click', blink);
     if (reduce) return;
+    shut(true);                                   // eyes open as the hero arrives
+    setTimeout(() => { shut(false); setInterval(blink, BLINK_MS); }, 900);
     (function loop(t) {
-      if (t - last > 2200) {          // idle: glance around on its own
-        const u = Math.floor(t / 1300);
-        const h = (k) => { const s = Math.sin(k * 12.9898) * 43758.5453; return s - Math.floor(s); };
-        tx = h(u) * 2 - 1; ty = (h(u + 50) * 2 - 1) * 0.6;
-      }
-      x += (tx - x) * 0.18; y += (ty - y) * 0.18;
-      pupils.forEach((p) => p.setAttribute('transform', `translate(${(x * 13).toFixed(2)},${(y * 7).toFixed(2)})`));
+      let tx, ty;
+      if (t - st.pAt < 1500) { tx = st.px; ty = st.py; }
+      else if (st.dx !== null) { tx = st.dx; ty = st.dy; }
+      else { tx = Math.sin(t / 1000 * Math.PI); ty = 0; }
+      st.x += (tx - st.x) * 0.16; st.y += (ty - st.y) * 0.16;
+      pupils.forEach((p) => p.setAttribute('transform', `translate(${(st.x * 13).toFixed(2)},${(st.y * 7).toFixed(2)})`));
       requestAnimationFrame(loop);
     })(0);
-    (function blinks() { setTimeout(() => { blink(); blinks(); }, 2600 + Math.random() * 3200); })();
   });
 
-  /* ------------------------------------------------------------ data flowing past the cat */
-  $$('canvas[data-flow]').forEach((cv) => {
-    const ctx = cv.getContext('2d');
-    const TOK = [['•••• 1111', 1], ['IN_PAN', 1], ['AADHAAR', 1], ['Password=…', 1], ['AKIA…', 1], ['card × 3', 1],
-      ['Q3 deck', 0], ['lunch at 1?', 0], ['notes.txt', 0], ['{ "ok": 1 }', 0], ['hello', 0], ['report.pdf', 0], ['meeting 2pm', 0]];
-    let W = 0, H = 0, dpr = 1, parts = [], running = true, seed = 7, raf = 0;
-    const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
-    const size = () => { const r = cv.getBoundingClientRect(); dpr = Math.min(2, devicePixelRatio || 1); W = r.width; H = r.height; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0); };
-    const spawn = (p = {}) => {
-      const a = rnd() * Math.PI * 2, R = Math.max(W, H) * 0.62, t = TOK[Math.floor(rnd() * TOK.length)];
-      return Object.assign(p, { a, r: R * (0.75 + rnd() * 0.35), v: 0.35 + rnd() * 0.55, text: t[0], bad: !!t[1], hit: 0 });
+  /* ------------------------------------------------------------ data in orbit around the cat */
+  /* Three tilted rings. A scan beam sweeps out from the cat; every item it passes is judged:
+     sensitive data is flagged, everything else is waved through. The cat's eyes follow the beam. */
+  $$('[data-orbit]').forEach((sys) => {
+    const cat = $('[data-cat]', sys), beam = $('.sweep', sys), host = $('.chips', sys), svg = $('.rings', sys);
+    const nClean = $('[data-clean]', sys), nFlag = $('[data-flag]', sys);
+    const TILT = -12 * Math.PI / 180, SQ = 0.40, BEAM = 90, SPEED = [0.34, 0.24, 0.17];
+    const ITEMS = [
+      [2, 20, 'Card numbers × 3', 1, 'blocked'], [2, 140, 'notes.txt', 0], [2, 260, 'customers.csv → USB', 1, 'flagged'],
+      [1, 80, 'Aadhaar', 1, 'flagged'], [1, 200, 'Q3 deck.pptx', 0], [1, 320, 'Password=…', 1, 'flagged'],
+      [0, 0, 'PAN', 1, 'flagged'], [0, 120, 'Lunch at 1?', 0], [0, 240, 'report.pdf', 0],
+    ];
+    const chips = ITEMS.map(([ring, deg, label, bad, verdict], i) => {
+      const el = document.createElement('span');
+      el.className = 'orb-chip ' + (bad ? 'bad' : 'ok');
+      el.innerHTML = `<i></i><span>${label}</span><span class="flag">${bad ? '⚑ ' + verdict : '✓ clean'}</span>`;
+      host.appendChild(el);
+      return { el, ring, a0: deg * Math.PI / 180, bad, last: -1e9, i };
+    });
+    let W = 0, H = 0, R = [];
+    const layout = () => {
+      W = sys.clientWidth; H = sys.clientHeight;
+      R = (W < 480 ? [0.22, 0.31, 0.39] : [0.28, 0.385, 0.49]).map((f) => W * f);
+      svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+      svg.innerHTML = R.map((rx, i) => `<ellipse class="ring r${i + 1}" cx="${W / 2}" cy="${H / 2}" rx="${rx.toFixed(1)}" ry="${(rx * SQ).toFixed(1)}" transform="rotate(${(TILT * 180 / Math.PI).toFixed(1)} ${W / 2} ${H / 2})"/>`).join('');
+      const d = R[2] * 2;
+      Object.assign(beam.style, { width: d + 'px', height: d + 'px', left: (W / 2 - d / 2) + 'px', top: (H / 2 - d / 2) + 'px' });
     };
-    size(); for (let i = 0; i < 26; i++) { const p = spawn(); p.r *= 0.4 + rnd() * 0.6; parts.push(p); }
-    addEventListener('resize', size);
-    if ('IntersectionObserver' in window) new IntersectionObserver(([en]) => { running = en.isIntersecting; if (running && !reduce && !raf) raf = requestAnimationFrame(draw); }).observe(cv);
-    function draw() {
-      ctx.clearRect(0, 0, W, H);
-      const cx = W / 2, cy = H * 0.53, scan = Math.min(W, H) * 0.29;
-      ctx.font = '600 11px "IBM Plex Mono", monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      for (const p of parts) {
-        if (!reduce) p.r -= p.v;
-        const x = cx + Math.cos(p.a) * p.r, y = cy + Math.sin(p.a) * p.r * 0.86;
-        if (p.r < scan && !p.hit) p.hit = 1;
-        if (p.hit) p.hit += 0.03;
-        const fade = Math.min(1, p.r / (scan * 0.55));
-        let col, alpha = Math.min(1, (Math.max(W, H) * 0.7 - p.r) / 80) * fade;
-        if (p.hit && p.bad) { col = '255,107,107'; ctx.fillStyle = `rgba(255,107,107,${0.16 * alpha})`; const tw = ctx.measureText(p.text).width + 14; ctx.fillRect(x - tw / 2, y - 10, tw, 20); }
-        else if (p.hit) col = '45,212,191';
-        else col = p.bad ? '245,185,64' : '163,180,200';
-        ctx.fillStyle = `rgba(${col},${Math.max(0, alpha) * (p.hit ? 1 : 0.75)})`;
-        ctx.fillText(p.hit && p.bad ? '⚑ ' + p.text : p.text, x, y);
-        if (p.r < scan * 0.45) spawn(p);
-      }
-      raf = running && !reduce ? requestAnimationFrame(draw) : 0;
-    }
-    draw();
+    layout(); addEventListener('resize', layout);
+    let clean = 0, flagged = 0, running = true, raf = 0;
+    const t0 = performance.now();
+    const frame = (now) => {
+      const t = (now - t0) / 1000, A = reduce ? 0 : t * BEAM;
+      beam.style.transform = `rotate(${TILT}rad) scaleY(${SQ}) rotate(${A.toFixed(2)}deg)`;
+      const lead = ((A + 30 - 90) % 360 + 360) % 360, lr = lead * Math.PI / 180;
+      if (cat && cat.drive) cat.drive(Math.cos(lr), Math.sin(lr) * 0.5);
+      chips.forEach((c) => {
+        const th = c.a0 + (reduce ? 0 : t * SPEED[c.ring]);
+        const rx = R[c.ring], x = rx * Math.cos(th), y = rx * SQ * Math.sin(th);
+        const X = x * Math.cos(TILT) - y * Math.sin(TILT), Y = x * Math.sin(TILT) + y * Math.cos(TILT);
+        const depth = Math.sin(th), s = 0.8 + 0.2 * (depth + 1) / 2;
+        const shown = reduce || t > 0.9 + c.i * 0.09;
+        c.el.style.transform = `translate(${(W / 2 + X).toFixed(1)}px, ${(H / 2 + Y).toFixed(1)}px) translate(-50%, -50%) scale(${s.toFixed(3)})`;
+        c.el.style.zIndex = depth > 0 ? 4 : 1;
+        c.el.style.opacity = shown ? (0.5 + 0.5 * (depth + 1) / 2).toFixed(2) : 0;
+        if (reduce || !shown) return;
+        const thDeg = ((th * 180 / Math.PI) % 360 + 360) % 360;
+        if (((lead - thDeg) % 360 + 360) % 360 < 7 && now - c.last > 1200) {
+          c.last = now; c.el.classList.add('hit');
+          if (c.bad) nFlag.textContent = ++flagged; else nClean.textContent = ++clean;
+          setTimeout(() => c.el.classList.remove('hit'), c.bad ? 1700 : 1000);
+        }
+      });
+      raf = running && !reduce ? requestAnimationFrame(frame) : 0;
+    };
+    requestAnimationFrame(() => sys.classList.add('ready'));
+    if ('IntersectionObserver' in window) new IntersectionObserver(([en]) => { running = en.isIntersecting; if (running && !raf && !reduce) raf = requestAnimationFrame(frame); }).observe(sys);
+    raf = requestAnimationFrame(frame);
   });
 
-  /* ------------------------------------------------------------ ticker */
+  /* headline words rise one after another */
+  $$('[data-words]').forEach((h) => {
+    let i = 0;
+    [...h.childNodes].forEach((n) => {
+      if (n.nodeType === 1) { n.classList.add('w'); n.style.setProperty('--wi', i++); return; }
+      if (n.nodeType !== 3) return;
+      const frag = document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach((p) => {
+        if (!p) return;
+        if (/^\s+$/.test(p)) { frag.append(p); return; }
+        const s = document.createElement('span'); s.className = 'w'; s.style.setProperty('--wi', i++); s.textContent = p; frag.append(s);
+      });
+      n.replaceWith(frag);
+    });
+  });
+
+  /* ------------------------------------------------------------ ticker: always running, right to left */
   $$('[data-ticker]').forEach((host) => {
     const items = (window.ARGUS_DATA && ARGUS_DATA.ticker) || [];
-    const html = items.map(([l, n, t, x]) => `<span class="tick"><span class="lvl l${l}">${l}</span>${n} <b>${t}</b> · ${x}</span>`).join('');
-    host.innerHTML = '<span class="ticker-lab">Sample feed</span><div class="ticker-track">' + html + html + '</div>';
+    const one = items.map((x) => `<span class="tick"><span class="lvl l${x.l}" title="Level ${x.l}">${x.l}</span><b>${x.what}</b>` +
+      `<span class="arrow" aria-hidden="true">→</span><span class="did">${x.did}</span><span class="who">${x.who} · ${x.at}</span></span>`).join('');
+    host.innerHTML = '<span class="ticker-lab">Example alerts</span><div class="ticker-track"><div class="ticker-set">' + one +
+      '</div><div class="ticker-set" aria-hidden="true">' + one + '</div></div>';
+  });
+
+  /* ------------------------------------------------------------ film strip (every film) */
+  $$('[data-strip]').forEach((host) => {
+    const F = (window.ARGUS_DATA && ARGUS_DATA.films) || [];
+    host.innerHTML = F.map(([b, k, n, t]) => `<a href="films.html" data-film="${b}/videos/${k}.mp4" data-poster="${b}/posters/${k}.png" aria-label="Play ${t}">` +
+      `<span class="th"><img src="${b}/posters/${k}.png" alt="" loading="lazy" width="640" height="360"></span><span class="nm"><span>${n}</span>${t}</span></a>`).join('');
   });
 
   /* ------------------------------------------------------------ film modal */

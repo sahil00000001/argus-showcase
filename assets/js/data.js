@@ -49,13 +49,34 @@ window.ARGUS_DATA = {
   ],
   surfaces: { clipboard: 'Clipboard and files', usb: 'USB', browser: 'Browser', system: 'Device and system' },
 
-  /* illustrative alert stream for the home ticker (synthetic) */
+  /* example alert stream for the home ticker (synthetic): what happened, what ARGUS did, which team, when */
   ticker: [
-    [15, '#8', 'Sensitive paste to AI chat', 'blocked'], [12, '#1', 'Production rows into Notepad', '214 rows'],
-    [8, '#4', 'USB stick not on the approve list', 'E:'], [15, '#3', 'Customer export to USB', 'card × 48'],
-    [5, '#6', 'Repeated visits', '10 in 1 h'], [15, '#10', 'Tamper attempt', 'denied'],
-    [12, '#2', 'PAN in a chat window', 'PAN × 1'], [8, '#5', 'Site on the block list', 'paste site'],
-    [3, '#7', 'An hour on one site', '1 h 04'], [5, '#9', 'After-hours activity', '02:14'],
+    { l: 15, what: 'Card numbers pasted into an AI chat', did: 'Paste blocked', who: 'Finance', at: '09:14' },
+    { l: 12, what: '214 production rows pasted into Notepad', did: 'Alert sent to the SOC', who: 'Engineering', at: '09:31' },
+    { l: 8, what: 'Unknown USB stick plugged in', did: 'Not on the approve list', who: 'Sales', at: '10:02' },
+    { l: 15, what: 'Customer export with 48 card numbers copied to USB', did: 'USB storage off for 1 hour', who: 'Support', at: '10:47' },
+    { l: 12, what: 'PAN shared in a chat window', did: 'Alert sent to the SOC', who: 'HR', at: '11:20' },
+    { l: 8, what: 'Paste site opened', did: 'Site is on the block list', who: 'Engineering', at: '11:58' },
+    { l: 15, what: 'Attempt to stop the ARGUS service', did: 'Access denied, tamper alert', who: 'IT', at: '12:05' },
+    { l: 15, what: 'Aadhaar numbers uploaded to personal cloud', did: 'Warning shown to the user', who: 'Operations', at: '13:40' },
+    { l: 5, what: 'Same site opened 10 times in an hour', did: 'Logged for context', who: 'Marketing', at: '14:15' },
+    { l: 5, what: 'Spreadsheet in use at 2:14 AM', did: 'Logged for context', who: 'Finance', at: '02:14' },
+  ],
+
+  /* every film, for the home film strip (files live in batches/) */
+  films: [
+    ['batches/2026-10-brand-film', 'ARGUS-film', 'Flagship · 2:30', 'The ARGUS film'],
+    ['batches/2026-10-launch-films', 'ARGUS-showcase-full', 'Full tour · 4:24', 'All ten capabilities'],
+    ['batches/2026-10-launch-films', '01-what-is-argus', 'Film 01', 'What ARGUS is'],
+    ['batches/2026-10-launch-films', '02-copy-paste-caught', 'Film 02', 'Copy, paste, caught'],
+    ['batches/2026-10-launch-films', '03-the-usb-stick', 'Film 03', 'The USB stick'],
+    ['batches/2026-10-launch-films', '04-the-ai-chat-box', 'Film 04', 'The AI chat box'],
+    ['batches/2026-10-launch-films', '05-ten-detections', 'Film 05', 'Ten detections, one alert each'],
+    ['batches/2026-10-launch-films', '06-watching-without-spying', 'Film 06', 'Watching without spying'],
+    ['batches/2026-10-launch-films', '07-try-to-switch-it-off', 'Film 07', 'Try to switch it off'],
+    ['batches/2026-10-launch-films', '08-policy-you-can-trust', 'Film 08', 'Policy you can trust'],
+    ['batches/2026-10-launch-films', '09-one-installer', 'Film 09', 'One installer, every laptop'],
+    ['batches/2026-10-launch-films', '10-proof-not-promises', 'Film 10', 'Proof, not promises'],
   ],
 
   /* sourced market facts (cited where shown) */

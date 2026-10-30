@@ -17,25 +17,29 @@
 <main id="main">
 <section class="hero">
   <div class="wrap hero-grid">
-    <div>
-      <p class="eyebrow"><i></i>Self-hosted DLP for Windows laptops · v0.6</p>
-      <h1>Eyes on your data. <span class="grad">In plain sight</span> of your people.</h1>
-      <p class="lede">ARGUS catches company data at the moment it leaves a laptop: on the clipboard, onto a USB drive, or into a browser tab. It recognises card numbers, PAN, Aadhaar, credentials and production data on the laptop itself, raises one clear alert per incident on your own servers, and shows every employee exactly what it collects.</p>
-      <div class="cta-row">
+    <div class="hero-copy">
+      <p class="eyebrow" style="--i:0"><i></i>Self-hosted DLP for Windows laptops</p>
+      <p class="myth" style="--i:1">In Greek myth, <b>Argus</b> had a hundred eyes and never slept.</p>
+      <h1 data-words>Your laptops need just <span class="grad">one pair of eyes.</span></h1>
+      <p class="lede" style="--i:3">ARGUS is that pair. It watches the clipboard, USB drives and the browser on every company laptop, recognises card numbers, PAN, Aadhaar, credentials and production data on the laptop itself, and raises one clear alert per incident on your own servers. And it watches in plain sight: every employee can see exactly what it collects.</p>
+      <div class="cta-row" style="--i:4">
         <a class="btn primary" href="films.html" data-film="batches/2026-10-brand-film/videos/ARGUS-film.mp4" data-poster="batches/2026-10-brand-film/posters/ARGUS-film.png">▶ Watch the 2:30 film</a>
         <a class="btn" href="demo.html">Try it live <span class="arr" aria-hidden="true">→</span></a>
       </div>
     </div>
-    <div class="watch" aria-label="Data flowing past the ARGUS cat. Sensitive items are flagged; everything else passes.">
-      <canvas data-flow aria-hidden="true"></canvas>
-      <div class="scan" aria-hidden="true"></div>
-      <div class="cat" data-cat title="Click to make it blink"></div>
-      <span class="tag t1" aria-hidden="true"><b>CREDIT_CARD</b> × 3 · blocked</span>
-      <span class="tag t2" aria-hidden="true"><b>IN_PAN</b> · flagged</span>
-      <span class="tag t3" aria-hidden="true">Q3 deck · nothing sensitive</span>
+    <div class="orbit-wrap">
+      <div class="orbit" data-orbit role="img" aria-label="The ARGUS cat at the centre, with files and data orbiting it. A scan beam sweeps from the cat; card numbers, Aadhaar, PAN and passwords are flagged, ordinary files pass as clean.">
+        <svg class="rings" aria-hidden="true"></svg>
+        <div class="glow" aria-hidden="true"></div>
+        <div class="sweep" aria-hidden="true"></div>
+        <div class="cat" data-cat title="The ARGUS cat. Click to make it blink."></div>
+        <div class="chips" aria-hidden="true"></div>
+        <div class="hud" aria-hidden="true"><span class="live"></span>Scanning <span><b data-clean>0</b> clean</span><span class="fl"><b data-flag>0</b> flagged</span></div>
+      </div>
+      <p class="orbit-cap"><b>Why a cat?</b> Cats watch everything and miss nothing. Ours watches your data, not your people: eyes on your data, in plain sight of your people.</p>
     </div>
   </div>
-  <div class="ticker" data-ticker aria-label="Sample alert feed (illustrative)"></div>
+  <div class="ticker" data-ticker aria-label="Example alerts (illustrative)"></div>
 </section>
 
 <section class="section">
@@ -84,6 +88,13 @@
         <div class="cta-row"><a class="btn" href="films.html">All films <span class="arr" aria-hidden="true">→</span></a></div>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="section line">
+  <div class="wrap">
+    <div class="head-row"><div><p class="kicker">Film library</p><h2>Twelve films. Pick one and press play.</h2></div><a class="btn" href="films.html">Open the film library <span class="arr" aria-hidden="true">→</span></a></div>
+    <div class="strip" data-strip></div>
   </div>
 </section>
 

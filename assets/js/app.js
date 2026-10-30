@@ -10,7 +10,7 @@
   let loading = null;            // id of the batch whose batch.js is loading
   let tourVideo = null;
   let tourBatch = null;
-  const state = { batch: null, topic: 'all' };
+  const state = { topics: {} };
 
   /* batch.js files call this */
   window.ARGUS = {
@@ -106,20 +106,12 @@
       host.replaceChildren(el('p', { className: 'tour-empty', textContent: 'No film batches found. Add one to batches/manifest.js.' }));
       return;
     }
-    const b = state.batch;
+    host.replaceChildren(...batches.map(batchBlock));   // every batch on the page, newest first
+  }
+
+  function batchBlock(b) {
+    const topic = state.topics[b.id] || 'all';
     const parts = [];
-
-    if (batches.length > 1) {
-      const tabs = el('div', { className: 'batch-tabs', role: 'group' }, batches.map((x) => {
-        const t = el('button', { type: 'button', textContent: x.title + ' · ' + fmtDate(x.date) });
-        t.setAttribute('aria-pressed', String(x === b));
-        t.addEventListener('click', () => { state.batch = x; state.topic = 'all'; renderLibrary(); });
-        return t;
-      }));
-      tabs.setAttribute('aria-label', 'Film batches');
-      parts.push(tabs);
-    }
-
     const total = b.films.reduce((s, f) => s + (f.duration || 0), 0);
     parts.push(el('div', { className: 'batch-head' }, [
       el('div', {}, [
@@ -131,33 +123,29 @@
         el('dt', { textContent: 'Released' }), el('dd', { textContent: fmtDate(b.date) }),
         el('dt', { textContent: 'Films' }), el('dd', { textContent: b.films.length + ' · ' + clock(total) + ' in total' }),
         el('dt', { textContent: 'Format' }), el('dd', { textContent: b.format }),
-        b.showcase ? el('dt', { textContent: 'Full tour' }) : null,
-        b.showcase ? el('dd', { textContent: clock(b.showcase.duration) + ', with chapters' }) : null,
       ]),
     ]));
-
     const topics = Object.entries(b.topics || {});
-    if (topics.length) {
+    if (topics.length > 1) {
       const filters = el('div', { className: 'filters', role: 'group' }, [['all', 'All films'], ...topics].map(([k, label]) => {
         const count = k === 'all' ? b.films.length : b.films.filter((f) => f.topic === k).length;
         const f = el('button', { type: 'button', textContent: label + ' (' + count + ')' });
-        f.setAttribute('aria-pressed', String(state.topic === k));
-        f.addEventListener('click', () => { state.topic = k; renderLibrary(); });
+        f.setAttribute('aria-pressed', String(topic === k));
+        f.addEventListener('click', () => { state.topics[b.id] = k; block.replaceWith(batchBlock(b)); });
         return f;
       }));
-      filters.setAttribute('aria-label', 'Filter films by topic');
+      filters.setAttribute('aria-label', 'Filter ' + b.title + ' by topic');
       parts.push(filters);
     }
-
-    const films = b.films.filter((f) => state.topic === 'all' || f.topic === state.topic);
+    const films = b.films.filter((f) => topic === 'all' || f.topic === topic);
     parts.push(el('div', { className: 'grid' }, films.map((f) => filmCard(b, f))));
-
     if (b.notes && b.notes.length) {
       parts.push(el('div', { className: 'notes' }, b.notes.map((n) => el('div', {}, [
         el('h4', { textContent: n.title }), el('p', { textContent: n.body }),
       ]))));
     }
-    host.replaceChildren(...parts);
+    const block = el('section', { className: 'batch-block', id: 'batch-' + b.id }, parts);
+    return block;
   }
 
   function filmCard(b, f) {
@@ -213,7 +201,7 @@
     const m = /^#film-(\w+)$/.exec(location.hash);
     if (!m) return;
     const owner = batches.find((b) => b.films.some((f) => f.n === m[1]));
-    if (owner && (owner !== state.batch || state.topic !== 'all')) { state.batch = owner; state.topic = 'all'; renderLibrary(); }
+    if (owner && (state.topics[owner.id] || 'all') !== 'all') { state.topics[owner.id] = 'all'; renderLibrary(); }
     const card = document.getElementById('film-' + m[1]);
     if (card) { card.scrollIntoView({ block: 'center' }); card.classList.add('flash'); setTimeout(() => card.classList.remove('flash'), 2200); }
   }
@@ -238,7 +226,6 @@
     }
     loading = null;
     batches.sort((a, b) => (a.date < b.date ? 1 : -1));   // newest first
-    state.batch = batches[0] || null;
     renderTour();
     renderLibrary();
     trackSections();

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ten detections · ARGUS</title>
+<meta name="description" content="The ten ARGUS detections: clipboard, USB, browser and device signals, each mapped to one Wazuh alert rule with a fixed level.">
+<meta name="theme-color" content="#070d1a">
+<link rel="icon" href="assets/img/argus.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body data-page="detections">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"></header>
+
+<main id="main">
+<section class="phero">
+  <div class="wrap">
+    <p class="crumbs">ARGUS / Detections</p>
+    <h1>Ten detections. <span class="grad">Each raises exactly one alert.</span></h1>
+    <p class="intro">Every detection maps to one alert-bearing Wazuh rule with a fixed level, so the security team sees one alert per incident. Levels follow Wazuh: 15 is critical, 12 high, 8 medium, 5 and 3 informational. Pick a detection to see how it plays out.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="filters" data-f-surface data-label="Surface" role="group" aria-label="Filter by surface"></div>
+    <div class="filters" data-f-level data-label="Level" role="group" aria-label="Filter by level" style="margin-top:10px"></div>
+    <div class="dgrid" data-dgrid></div>
+    <div class="drawer" id="drawer" data-drawer hidden aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="section line">
+  <div class="wrap">
+    <div class="cols2" style="margin-top:0;align-items:start">
+      <div>
+        <p class="kicker">Severity</p>
+        <h2>Critical where the data is critical.</h2>
+        <p class="intro">Card numbers, Aadhaar, connection strings and credentials are critical by default; PAN is high. The level of an alert follows what was found, not a guess about the person.</p>
+      </div>
+      <div class="card" data-reveal>
+        <h3>Detections by highest level</h3>
+        <div class="bars" data-bars role="img" aria-label="Number of detections by highest level: 4 at level 15, 1 at 12, 2 at 8, 2 at 5, 1 at 3"></div>
+      </div>
+    </div>
+    <div class="table-scroll">
+      <table class="det">
+        <caption>All ten detections at a glance</caption>
+        <thead><tr><th scope="col">#</th><th scope="col">Detection</th><th scope="col">What triggers it</th><th scope="col">Rule</th><th scope="col">Level</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><th scope="row">Production data into a local app</th><td>Copied from a production tool (SSMS, psql, DBeaver, RDP…) and pasted into Notepad, or saved by an editor</td><td class="mono">110110 · 110111</td><td><span class="lvl l12">12</span></td></tr>
+          <tr><td>2</td><th scope="row">Sensitive data in any app</th><td>Card, Aadhaar, PAN, IFSC, account numbers, connection strings or credentials found in clipboard or files</td><td class="mono">110120–110129</td><td><span class="lvl l12">12</span> <span class="lvl l15">15</span></td></tr>
+          <tr><td>3</td><th scope="row">Production data to USB</th><td>A file with production lineage written to a removable drive; critical when it contains critical data</td><td class="mono">110210 · 110211</td><td><span class="lvl l12">12</span> <span class="lvl l15">15</span></td></tr>
+          <tr><td>4</td><th scope="row">USB drive not on the approve list</th><td>USB storage that is not on the approve list</td><td class="mono">110220</td><td><span class="lvl l8">8</span></td></tr>
+          <tr><td>5</td><th scope="row">Site on the block list</th><td>A visit to a site on the block list, such as paste and file-sharing sites</td><td class="mono">110310</td><td><span class="lvl l8">8</span></td></tr>
+          <tr><td>6</td><th scope="row">Repeated visits</th><td>Ten or more visits to the same site within an hour</td><td class="mono">110320</td><td><span class="lvl l5">5</span></td></tr>
+          <tr><td>7</td><th scope="row">Long time on one site</th><td>An hour or more on a single site</td><td class="mono">110330</td><td><span class="lvl l3">3</span></td></tr>
+          <tr><td>8</td><th scope="row">Sensitive paste or upload</th><td>Sensitive data pasted or uploaded to webmail, personal cloud or AI chat sites</td><td class="mono">110340 · 110341</td><td><span class="lvl l12">12</span> <span class="lvl l15">15</span></td></tr>
+          <tr><td>9</td><th scope="row">After-hours use</th><td>Application use between 8 pm and 7 am, or at weekends</td><td class="mono">110410 · 110411</td><td><span class="lvl l5">5</span></td></tr>
+          <tr><td>10</td><th scope="row">Tamper attempt</th><td>The ARGUS service stopped outside maintenance, or killed and restarted</td><td class="mono">110910</td><td><span class="lvl l15">15</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section line">
+  <div class="wrap">
+    <p class="kicker">Control</p>
+    <h2>Detect first. Block when you decide to.</h2>
+    <p class="intro">A false block stops someone's work; a false alert costs an analyst a minute. So every blocking feature ships switched off and is turned on per policy.</p>
+    <div class="cols4">
+      <article class="card" data-reveal><h3>Paste and upload guard</h3><p>Per site class (webmail, personal cloud, AI chat): <b>detect</b>, <b>warn</b> or <b>block</b>.</p></article>
+      <article class="card" data-reveal style="--d:1"><h3>Disable USB storage</h3><p>After a critical USB copy, new USB storage can't mount for one hour, then it's restored automatically.</p></article>
+      <article class="card" data-reveal style="--d:2"><h3>Stop the copying process</h3><p>System, security, Wazuh, Sysmon and ARGUS processes are never touched.</p></article>
+      <article class="card" data-reveal style="--d:3"><h3>Notify the security team</h3><p>High-severity alerts post a one-line summary to Teams, Slack or any HTTPS webhook.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap"><div class="band" data-reveal><h2>Paste something and watch detection #8 decide.</h2><div class="cta-row"><a class="btn primary" href="demo.html">Try it live <span class="arr">→</span></a><a class="btn" href="films.html#film-05">Watch “Ten detections”</a></div></div></div>
+</section>
+</main>
+
+<footer class="foot"></footer>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/pages.js"></script>
+</body>
+</html>

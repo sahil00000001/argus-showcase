@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Try it live · ARGUS</title>
+<meta name="description" content="Paste text and watch the ARGUS recognisers, paste guard and alert event work, entirely in your browser.">
+<meta name="theme-color" content="#070d1a">
+<link rel="icon" href="assets/img/argus.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body data-page="demo">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"></header>
+
+<main id="main">
+<section class="phero">
+  <div class="wrap">
+    <p class="crumbs">ARGUS / Try it live</p>
+    <h1>Paste something. <span class="grad">Watch ARGUS decide.</span></h1>
+    <p class="intro">This lab runs simplified versions of the ARGUS recognisers in your browser: card numbers with the Luhn check, Aadhaar with the Verhoeff checksum, PAN, IFSC, connection strings and credentials. Pick the kind of site and your policy, and see what the employee and the security team would see. Nothing you type leaves this page.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="lab-grid">
+      <div class="panel">
+        <div class="panel-h"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span><span>Clipboard</span><span class="pill">in memory only</span></div>
+        <div class="panel-b">
+          <label for="paste" class="small" style="display:block;margin-bottom:8px">Type or paste text here. All sample data is synthetic.</label>
+          <textarea id="paste" class="paste" spellcheck="false"></textarea>
+          <div class="samples" data-samples aria-label="Load a sample"></div>
+          <div class="ctrl"><span>Where it is being pasted</span><div class="seg" data-site role="group" aria-label="Site class"></div></div>
+          <div class="ctrl"><span>Your policy for that site class</span><div class="seg" data-mode role="group" aria-label="Policy mode"></div></div>
+          <div class="mirror" data-mirror aria-label="Your text with the findings highlighted"></div>
+        </div>
+      </div>
+      <div class="verdict">
+        <div class="guard" data-guard aria-live="polite"></div>
+        <div class="panel">
+          <div class="panel-h"><span>What the recognisers found</span></div>
+          <div class="panel-b" style="padding:6px 8px"><table class="find" data-find></table></div>
+        </div>
+        <div class="panel">
+          <div class="panel-h"><span>What reaches your server</span><span class="pill">types and counts only</span></div>
+          <pre class="json" data-event style="border:0;border-radius:0;min-height:0"></pre>
+        </div>
+      </div>
+    </div>
+    <p class="small" style="margin-top:18px;max-width:90ch">How close is this to the product? The entity types and default severities match ARGUS 0.6 (card, Aadhaar, connection strings and credentials are critical; PAN is high; IFSC and account numbers are medium). The product runs them in Microsoft Presidio on the laptop with more patterns and context rules than this page. The event shown is simplified.</p>
+  </div>
+</section>
+
+<section class="section line">
+  <div class="wrap">
+    <p class="kicker">What to try</p>
+    <h2>Five things worth trying.</h2>
+    <div class="cols3">
+      <article class="card" data-reveal><h3>Break the checksum</h3><p>Change one digit of <code>4111 1111 1111 1111</code>. The Luhn check fails and it's no longer a card number.</p></article>
+      <article class="card" data-reveal style="--d:1"><h3>Switch to Warn</h3><p>The employee sees why and decides. The alert is raised either way.</p></article>
+      <article class="card" data-reveal style="--d:2"><h3>Paste into “any other site”</h3><p>No paste guard there, but detection #2 still records the types and counts from the clipboard.</p></article>
+      <article class="card" data-reveal><h3>Try the harmless note</h3><p>Numbers like <code>4111</code> or <code>2345</code> alone are not sensitive. Nothing is recorded.</p></article>
+      <article class="card" data-reveal style="--d:1"><h3>Paste a config file</h3><p>A connection string with a password and an access key are both critical.</p></article>
+      <article class="card" data-reveal style="--d:2"><h3>Read the event</h3><p>It never contains your text. That's the whole privacy model in one JSON object.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap"><div class="band" data-reveal><h2>That's detection #8. There are nine more.</h2><div class="cta-row"><a class="btn primary" href="detections.html">Explore all ten <span class="arr">→</span></a><a class="btn" href="films.html#film-04">Watch “The AI chat box”</a></div></div></div>
+</section>
+</main>
+
+<footer class="foot"></footer>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/pages.js"></script>
+</body>
+</html>

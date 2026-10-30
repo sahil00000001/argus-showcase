@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Compare · ARGUS</title>
+<meta name="description" content="Where ARGUS fits among data-protection tools: legacy DLP suites, cloud DLP platforms, employee monitoring and a SIEM on its own.">
+<meta name="theme-color" content="#070d1a">
+<link rel="icon" href="assets/img/argus.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body data-page="compare">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"></header>
+
+<main id="main">
+<section class="phero">
+  <div class="wrap">
+    <p class="crumbs">ARGUS / Compare</p>
+    <h1>Understands the data. <span class="grad">Stays light, private and yours.</span></h1>
+    <p class="intro">Most tools that protect data on laptops do one of two jobs well. Some understand the data, but they are heavy to run or send your evidence to someone else's cloud. Others are light, but they watch people or logs rather than the data itself. ARGUS is built to do both.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <figure class="pos" data-reveal>
+      <figcaption class="pos-cap"><b>Positioning by product category</b><span>Hover over or tap a point: its column lights up in the table below.</span></figcaption>
+      <div class="pos-frame">
+        <p class="pos-y" aria-hidden="true">Understands the data →</p>
+        <div class="pos-plot" role="list" aria-label="Positioning chart: five product categories placed by how well they understand content and how light, self-hosted and private they are">
+          <span class="q q1" aria-hidden="true">Capable, but heavy</span><span class="q q2" aria-hidden="true">Capable and light</span>
+          <span class="q q3" aria-hidden="true">Watches people, not data</span><span class="q q4" aria-hidden="true">Light, but blind to content</span>
+          <button class="pt" type="button" role="listitem" data-col="2" style="--x:16;--y:80"><i></i><span class="lb">Legacy DLP suites</span><span class="tt">Deep content inspection and blocking. Usually a large on-premises suite with agents, servers and policy work that take months to roll out.</span></button>
+          <button class="pt" type="button" role="listitem" data-col="3" style="--x:34;--y:64"><i></i><span class="lb">Cloud DLP platforms</span><span class="tt">Strong content inspection, delivered as a service. Evidence and alert data typically live in the vendor's cloud, not on your servers.</span></button>
+          <button class="pt" type="button" role="listitem" data-col="4" style="--x:20;--y:20"><i></i><span class="lb">Employee monitoring</span><span class="tt">Screenshots, keystrokes and activity timelines. Watches what people do rather than which data moves, and is often hard to explain to employees.</span></button>
+          <button class="pt r" type="button" role="listitem" data-col="5" style="--x:66;--y:24"><i></i><span class="lb">A SIEM on its own</span><span class="tt">Collects every log, on your own infrastructure if you choose. It sees that a file moved, but not whether the file held card numbers.</span></button>
+          <button class="pt us r" type="button" role="listitem" data-col="1" style="--x:84;--y:84"><i></i><span class="lb">ARGUS</span><span class="tt">Recognises card, PAN, Aadhaar and credentials on the laptop. Runs on your servers, one installer, &lt;2% of one core. Tells employees what it collects.</span></button>
+        </div>
+        <p class="pos-x" aria-hidden="true">Light, self-hosted and private →</p>
+      </div>
+    </figure>
+
+    <div class="table-scroll">
+      <table class="det cmp">
+        <caption>How each category typically works. Individual products vary.</caption>
+        <thead><tr><th scope="col">What you need</th><th scope="col" class="us-col">ARGUS</th><th scope="col">Legacy DLP suites</th><th scope="col">Cloud DLP platforms</th><th scope="col">Employee monitoring</th><th scope="col">A SIEM on its own</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Recognises sensitive data (card, PAN, Aadhaar)</th><td class="us-col"><b class="y">Yes</b>, on the laptop</td><td><b class="y">Yes</b></td><td><b class="y">Yes</b>, often in the vendor cloud</td><td><b class="n">Rarely</b></td><td><b class="n">No</b>, sees logs only</td></tr>
+          <tr><th scope="row">Runs entirely on your own servers</th><td class="us-col"><b class="y">Yes</b>, no vendor cloud</td><td><b class="y">Usually</b></td><td><b class="n">No</b></td><td><b class="m">Varies</b></td><td><b class="m">Varies</b></td></tr>
+          <tr><th scope="row">Employees can see what is collected</th><td class="us-col"><b class="y">Yes</b>, in the tray panel</td><td><b class="n">Rarely</b></td><td><b class="n">Rarely</b></td><td><b class="n">Rarely</b></td><td><b class="m">Not applicable</b></td></tr>
+          <tr><th scope="row">Keystrokes and screen capture</th><td class="us-col"><b class="y">Never keystrokes</b>; screenshots off by default</td><td><b class="m">Varies</b></td><td><b class="m">Varies</b></td><td><b class="n">Often both</b></td><td><b class="y">No</b></td></tr>
+          <tr><th scope="row">Blocking</th><td class="us-col"><b class="y">Optional</b>, off by default, per site class</td><td><b class="y">Yes</b></td><td><b class="y">Yes</b></td><td><b class="n">Rarely</b></td><td><b class="n">No</b></td></tr>
+          <tr><th scope="row">One alert per incident</th><td class="us-col"><b class="y">Yes</b>, by design</td><td><b class="m">Varies</b></td><td><b class="m">Varies</b></td><td><b class="m">Varies</b></td><td><b class="m">Depends on tuning</b></td></tr>
+          <tr><th scope="row">Rollout</th><td class="us-col"><b class="y">One signed installer</b>; Intune or Group Policy</td><td><b class="n">Often months</b></td><td><b class="m">Days to weeks</b></td><td><b class="y">Quick</b></td><td><b class="m">Logs only</b>; content needs more tools</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small" style="max-width:86ch">This chart and table are ARGUS's own assessment of how each product category typically works. Positions are qualitative, not measured scores, and individual products in a category differ. This is not an analyst or other third-party evaluation.</p>
+  </div>
+</section>
+
+<section class="section line">
+  <div class="wrap">
+    <p class="kicker">Why the gaps matter</p>
+    <h2>Four ways data still gets out.</h2>
+    <div class="cols4">
+      <article class="card" data-reveal><h3>Heavy tools get switched off</h3><p>When an agent slows laptops, someone finds a reason to remove it. ARGUS has a budget and a watchdog.</p></article>
+      <article class="card" data-reveal style="--d:1"><h3>Cloud evidence is someone else's</h3><p>DLP alerts describe your most sensitive data. With ARGUS they stay on your servers.</p></article>
+      <article class="card" data-reveal style="--d:2"><h3>Watching people isn't protecting data</h3><p>Screenshots and keystrokes create a privacy problem and still miss the card numbers in a paste.</p></article>
+      <article class="card" data-reveal style="--d:3"><h3>Logs without content are blind</h3><p>A SIEM sees a file copied to USB. ARGUS tells it the file held 48 card numbers.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap"><div class="band" data-reveal><h2>Judge it on your own laptops.</h2><p class="intro">A 50-laptop pilot runs with blocking off, so you can compare what ARGUS sees with what your current tools see.</p><div class="cta-row"><a class="btn primary" href="deploy.html#pilot">Plan a pilot <span class="arr">→</span></a><a class="btn" href="demo.html">Try it live</a></div></div></div>
+</section>
+</main>
+
+<footer class="foot"></footer>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/pages.js"></script>
+</body>
+</html>

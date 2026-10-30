@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Platform · ARGUS</title>
+<meta name="description" content="How ARGUS works: Sysmon, the Argus Agent and a browser extension on each laptop, one event file out, Wazuh rules and dashboards on your server.">
+<meta name="theme-color" content="#070d1a">
+<link rel="icon" href="assets/img/argus.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body data-page="platform">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"></header>
+
+<main id="main">
+<section class="phero">
+  <div class="wrap">
+    <p class="crumbs">ARGUS / Platform</p>
+    <h1>One agent on the laptop. <span class="grad">Everything else on your servers.</span></h1>
+    <p class="intro">ARGUS doesn't reinvent the endpoint agent. It builds on Microsoft Sysmon for kernel telemetry and Wazuh for collection, rules and dashboards, then adds what they lack: knowing which data is sensitive and where it is going.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="arch" data-reveal>
+      <svg id="arch" viewBox="0 0 1200 470" role="img" aria-label="Architecture: sources on the laptop feed the Argus Agent, browser extension and Sysmon; one event file and the Wazuh agent carry events to the Wazuh manager, indexer and dashboards on your server.">
+        <rect class="zone" x="10" y="8" width="760" height="454" rx="18"/><text class="zlab" x="30" y="30">ON EVERY LAPTOP</text>
+        <rect class="zone" x="800" y="8" width="390" height="454" rx="18"/><text class="zlab" x="820" y="30">ON YOUR SERVER</text>
+        <path id="w1" class="wire" d="M230,92 C265,92 265,140 300,140"/>
+        <path id="w2" class="wire" d="M230,182 C265,182 265,160 300,160"/>
+        <path id="w3" class="wire" d="M230,272 L300,272"/>
+        <path id="w4" class="wire" d="M230,392 L300,392"/>
+        <path id="w5" class="wire" d="M415,110 L415,84"/>
+        <path id="w6" class="wire" d="M530,150 C565,150 565,202 600,202"/>
+        <path id="w7" class="wire" d="M530,272 C565,272 565,212 600,212"/>
+        <path id="w8" class="wire" d="M530,392 C565,392 565,342 600,342"/>
+        <path id="w9" class="wire" d="M675,236 L675,310"/>
+        <path id="w10" class="wire" d="M750,342 C800,342 790,162 840,162"/>
+        <path id="w11" class="wire" d="M1010,196 L1010,250"/>
+        <path id="w12" class="wire" d="M1010,314 L1010,368"/>
+        <g class="node" id="n-clip"><rect x="40" y="60" width="190" height="64" rx="12"/><text x="58" y="88">Clipboard + files</text><text class="sub" x="58" y="108">copies and pastes</text></g>
+        <g class="node"><rect x="40" y="150" width="190" height="64" rx="12"/><text x="58" y="178">USB drives</text><text class="sub" x="58" y="198">devices and file copies</text></g>
+        <g class="node"><rect x="40" y="240" width="190" height="64" rx="12"/><text x="58" y="268">Browser tabs</text><text class="sub" x="58" y="288">sites, pastes, uploads</text></g>
+        <g class="node"><rect x="40" y="360" width="190" height="64" rx="12"/><text x="58" y="388">Windows kernel</text><text class="sub" x="58" y="408">process, file, DNS, network</text></g>
+        <g class="node argus" id="n-insp"><rect x="300" y="20" width="230" height="64" rx="12"/><text x="318" y="48">Local inspector</text><text class="sub" x="318" y="68">Presidio on 127.0.0.1 only</text></g>
+        <g class="node argus" id="n-agent"><rect x="300" y="110" width="230" height="80" rx="12"/><text x="318" y="142">Argus Agent</text><text class="sub" x="318" y="164">clipboard, USB, apps, content</text></g>
+        <g class="node argus" id="n-ext"><rect x="300" y="240" width="230" height="64" rx="12"/><text x="318" y="268">Browser extension</text><text class="sub" x="318" y="288">Chrome and Edge, paste guard</text></g>
+        <g class="node"><rect x="300" y="360" width="230" height="64" rx="12"/><text x="318" y="388">Sysmon</text><text class="sub" x="318" y="408">kernel telemetry, low noise</text></g>
+        <g class="node" id="n-file"><rect x="600" y="172" width="150" height="64" rx="12"/><text x="618" y="200">Event file</text><text class="sub" x="618" y="220">the one path out</text></g>
+        <g class="node" id="n-wagent"><rect x="600" y="310" width="150" height="64" rx="12"/><text x="618" y="338">Wazuh agent</text><text class="sub" x="618" y="358">TLS · 1514/tcp</text></g>
+        <g class="node" id="n-mgr"><rect x="840" y="120" width="330" height="76" rx="12"/><text x="858" y="150">Wazuh manager</text><text class="sub" x="858" y="172">ARGUS rules 110000–110999, block and approve lists</text></g>
+        <g class="node" id="n-idx"><rect x="840" y="250" width="330" height="64" rx="12"/><text x="858" y="278">Indexer</text><text class="sub" x="858" y="298">alerts and events, on your hardware</text></g>
+        <g class="node" id="n-dash"><rect x="840" y="368" width="330" height="64" rx="12"/><text x="858" y="396">Dashboards</text><text class="sub" x="858" y="416">Overview · Insider Risk · DLP Events</text></g>
+      </svg>
+    </div>
+
+    <div class="head-row" style="margin-top:48px">
+      <div><p class="kicker">Follow one event</p><h2>From a copied card number to one alert, in six steps.</h2></div>
+      <button class="btn" type="button" data-walk-next>Next step <span class="arr" aria-hidden="true">→</span></button>
+    </div>
+    <div class="walk">
+      <div class="card"><div class="walk-steps" data-walk-steps role="group" aria-label="Steps"></div><p class="intro" style="margin-top:6px" data-walk-say aria-live="polite"></p></div>
+      <pre class="json" data-walk-json aria-label="What the event looks like at this step"></pre>
+    </div>
+  </div>
+</section>
+
+<section class="section line">
+  <div class="wrap">
+    <p class="kicker">Design rules</p>
+    <h2>Built so the parts never fight.</h2>
+    <p class="intro">Ten design rules are checked automatically on every build. These six shape the architecture.</p>
+    <div class="cols3">
+      <article class="card" data-reveal style="--d:0"><h3>One owner per signal</h3><p>Sysmon owns kernel telemetry; ARGUS never opens a second copy of it.</p></article>
+      <article class="card" data-reveal style="--d:1"><h3>One clipboard reader</h3><p>Only the ARGUS user agent reads the clipboard; the browser extension never does.</p></article>
+      <article class="card" data-reveal style="--d:2"><h3>One way into Wazuh</h3><p>A single event file, no calls to the Wazuh API, no changes to its configuration.</p></article>
+      <article class="card" data-reveal style="--d:0"><h3>No open ports</h3><p>The local inspector listens on 127.0.0.1 only. Nothing on the laptop is reachable from the network.</p></article>
+      <article class="card" data-reveal style="--d:1"><h3>One alert per incident</h3><p>Supporting signals add context to an alert instead of raising a second one.</p></article>
+      <article class="card" data-reveal style="--d:2"><h3>One enforcer per surface</h3><p>The extension guards the browser; Wazuh responses handle USB and processes.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="section line">
+  <div class="wrap">
+    <p class="kicker">Footprint</p>
+    <h2>A budget the agent can't exceed.</h2>
+    <div class="gauges">
+      <div class="gauge card" data-v="0.02" data-reveal><svg viewBox="0 0 160 160" aria-hidden="true"><circle class="track" cx="80" cy="80" r="64"/><circle class="val" cx="80" cy="80" r="64"/><text class="num" x="80" y="86" text-anchor="middle">&lt;2%</text><text class="unit" x="80" y="106" text-anchor="middle">of one core</text></svg><p>CPU budget. A watchdog throttles ARGUS if it ever goes over.</p></div>
+      <div class="stat" data-reveal style="--d:1;display:grid;align-content:center"><b data-count="150" data-suf=" MB">150 MB</b><span>RAM budget for the ARGUS agent on each laptop.</span></div>
+      <div class="stat" data-reveal style="--d:2;display:grid;align-content:center"><b data-count="0">0</b><span>ports open on the laptop. Events leave through the Wazuh agent only.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section line">
+  <div class="wrap">
+    <p class="kicker">Proof</p>
+    <h2>Numbers you can re-run yourself.</h2>
+    <p class="intro">Results from the build of 29 October 2026. Every number comes with the command that produces it.</p>
+    <div class="cols3">
+      <div class="stat" data-reveal><b data-count="236" data-suf="/236">236/236</b><span>unit and contract tests pass · <code>dotnet test agent/Argus.sln</code></span></div>
+      <div class="stat" data-reveal style="--d:1"><b data-count="46">46</b><span>rule test cases, ready for Wazuh replay · <code>python platform/tests/run_golden.py</code></span></div>
+      <div class="stat" data-reveal style="--d:2"><b data-count="10" data-suf="/10">10/10</b><span>detections mapped to one alert rule each · <code>argus_rules.xml</code></span></div>
+      <div class="stat" data-reveal><b data-count="0">0</b><span>build warnings, with warnings treated as errors · <code>dotnet build</code></span></div>
+      <div class="stat" data-reveal style="--d:1"><b data-count="10">10</b><span>design rules checked automatically · <code>check_contract.py</code></span></div>
+      <div class="stat" data-reveal style="--d:2"><b data-count="40">40</b><span>third-party components pinned by version and hash · <code>check_pins.py</code></span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap"><div class="band" data-reveal><h2>See what each detection catches.</h2><div class="cta-row"><a class="btn primary" href="detections.html">Explore the ten detections <span class="arr">→</span></a><a class="btn" href="demo.html">Try it live</a></div></div></div>
+</section>
+</main>
+
+<footer class="foot"></footer>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/pages.js"></script>
+</body>
+</html>

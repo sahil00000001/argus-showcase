@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Deploy · ARGUS</title>
+<meta name="description" content="Deploy ARGUS: one signed installer, rolled out with Intune, Group Policy or by hand, and a Wazuh server brought up with Ansible. Build your install command and plan a pilot.">
+<meta name="theme-color" content="#070d1a">
+<link rel="icon" href="assets/img/argus.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body data-page="deploy">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"></header>
+
+<main id="main">
+<section class="phero">
+  <div class="wrap">
+    <p class="crumbs">ARGUS / Deploy</p>
+    <h1>One installer. <span class="grad">Every laptop.</span></h1>
+    <p class="intro"><code>ArgusSetup.exe</code> (about 140 MB) installs everything a laptop needs: the Wazuh agent pointed at your server, the ARGUS services, the local inspector, browser registration and the optional responses. It installs silently.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="cols2" style="align-items:start;margin-top:0">
+      <div class="card">
+        <h3>Build your install command</h3>
+        <div class="builder" style="margin-top:16px">
+          <label class="field"><span>Your Wazuh server</span><input id="mgr" type="text" placeholder="argus.yourcompany.internal" autocomplete="off" spellcheck="false"></label>
+          <div class="cmd"><code data-cmd></code><button class="copy" type="button" data-cmd-copy>Copy</button></div>
+          <p class="small" style="margin:0">Run it from Intune, a Group Policy startup script or an elevated prompt. The installer is signed; check the signature before you push it.</p>
+        </div>
+      </div>
+      <div>
+        <p class="kicker">Network</p>
+        <h2>Three ports, all inbound to your server.</h2>
+        <div class="ports">
+          <div class="port" data-reveal><b>1514</b><span>Events from laptops, TLS</span></div>
+          <div class="port" data-reveal style="--d:1"><b>1515</b><span>Laptop enrolment</span></div>
+          <div class="port" data-reveal style="--d:2"><b>443</b><span>Analysts open the dashboards</span></div>
+        </div>
+        <p class="muted" style="margin-top:14px">Laptops open no ports. The local inspector listens on 127.0.0.1 only.</p>
+      </div>
+    </div>
+
+    <div class="tabs" role="tablist" aria-label="Rollout method">
+      <button role="tab" type="button" id="t-intune" aria-controls="p-intune" aria-selected="true">Intune</button>
+      <button role="tab" type="button" id="t-gpo" aria-controls="p-gpo" aria-selected="false" tabindex="-1">Group Policy</button>
+      <button role="tab" type="button" id="t-server" aria-controls="p-server" aria-selected="false" tabindex="-1">Server (Ansible)</button>
+      <button role="tab" type="button" id="t-manual" aria-controls="p-manual" aria-selected="false" tabindex="-1">By hand</button>
+    </div>
+    <div class="tabpanel" role="tabpanel" id="p-intune" aria-labelledby="t-intune">
+      <ol class="steps">
+        <li><b>Upload the Win32 app package.</b><span>ARGUS ships a ready package and a detection script.</span></li>
+        <li><b>Set the install command.</b><span>Use the command you built above.</span></li>
+        <li><b>Assign it to a pilot group first.</b><span>Widen the assignment once the pilot looks right.</span></li>
+      </ol>
+    </div>
+    <div class="tabpanel" role="tabpanel" id="p-gpo" aria-labelledby="t-gpo" hidden>
+      <ol class="steps">
+        <li><b>Put the installer on a file share.</b><span>Read-only for computers in the pilot group.</span></li>
+        <li><b>Link the startup script.</b><span>It installs or upgrades after checking the file's hash and signature.</span></li>
+        <li><b>Restart the pilot laptops.</b><span>ARGUS installs at the next start-up.</span></li>
+      </ol>
+    </div>
+    <div class="tabpanel" role="tabpanel" id="p-server" aria-labelledby="t-server" hidden>
+      <ol class="steps">
+        <li><b>Prepare a Linux host with Docker.</b><span>4 vCPU, 8 GB RAM, 50 GB SSD for a pilot of about 50 laptops.</span></li>
+        <li><b>Run the Ansible playbook.</b><span>It sets the kernel setting, takes secrets from Ansible Vault and runs the bootstrap script.</span></li>
+        <li><b>Open the dashboards.</b><span>ARGUS Overview, Insider Risk and DLP Events are ready on port 443.</span></li>
+      </ol>
+    </div>
+    <div class="tabpanel" role="tabpanel" id="p-manual" aria-labelledby="t-manual" hidden>
+      <ol class="steps">
+        <li><b>Copy the installer to the laptop.</b><span>Check its signature in the file's properties.</span></li>
+        <li><b>Run the install command as an administrator.</b><span>It's silent; there is nothing to click.</span></li>
+        <li><b>Open the tray icon.</b><span>The employee sees what this deployment collects.</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="section line">
+  <div class="wrap">
+    <p class="kicker">Requirements</p>
+    <h2>What a pilot needs.</h2>
+    <div class="table-scroll">
+      <table class="det">
+        <thead><tr><th scope="col">Item</th><th scope="col">Requirement</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Laptops</th><td>Windows 10 or 11, 64-bit</td></tr>
+          <tr><th scope="row">Server</th><td>Linux with Docker; 4 vCPU, 8 GB RAM, 50 GB SSD for a pilot of about 50 laptops</td></tr>
+          <tr><th scope="row">Network</th><td>Laptops to server on 1514/tcp (events, TLS) and 1515/tcp (enrolment); analysts on 443. Laptops open no ports.</td></tr>
+          <tr><th scope="row">Footprint target</th><td>Under 2% of one CPU core and 150 MB of RAM; a watchdog throttles ARGUS if it ever exceeds its budget</td></tr>
+          <tr><th scope="row">Before go-live</th><td>A code-signing certificate, the browser extension ID, and the employee notice agreed with HR and legal</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="section line" id="pilot">
+  <div class="wrap">
+    <div class="cols2" style="align-items:start;margin-top:0">
+      <div>
+        <p class="kicker gold">Pilot</p>
+        <h2>Run ARGUS on 50 laptops before you decide.</h2>
+        <p class="intro">Detection runs from day one with every blocking feature off, so you see what ARGUS would catch before anyone's work is affected.</p>
+        <ol class="steps" style="margin-top:26px">
+          <li><b>Stand up the server.</b><span>The Ansible playbook brings up Wazuh with the ARGUS rules and dashboards.</span></li>
+          <li><b>Roll out to a pilot group.</b><span>One signed installer, through Intune or Group Policy.</span></li>
+          <li><b>Review the alerts together.</b><span>Tune the block list and site classes, then decide what to warn on or block.</span></li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Pilot checklist</h3>
+        <div class="progress" aria-hidden="true"><i data-progress></i></div>
+        <p class="small" data-progress-lab style="margin:0 0 12px"></p>
+        <ul class="check">
+          <li><label><input type="checkbox" id="c1"><span>Linux server with Docker (4 vCPU, 8 GB RAM, 50 GB SSD)</span></label></li>
+          <li><label><input type="checkbox" id="c2"><span>Ports 1514 and 1515 open from laptops; 443 for analysts</span></label></li>
+          <li><label><input type="checkbox" id="c3"><span>Code-signing certificate for the installer</span></label></li>
+          <li><label><input type="checkbox" id="c4"><span>Browser extension ID for Chrome and Edge</span></label></li>
+          <li><label><input type="checkbox" id="c5"><span>Employee notice agreed with HR and legal</span></label></li>
+          <li><label><input type="checkbox" id="c6"><span>Pilot group of about 50 laptops in Intune or Group Policy</span></label></li>
+          <li><label><input type="checkbox" id="c7"><span>Block list and site classes reviewed for your company</span></label></li>
+        </ul>
+        <p class="small">Ticks are saved in this browser only.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap"><div class="band" data-reveal><h2>See the rollout in under 30 seconds.</h2><div class="cta-row"><a class="btn primary" href="films.html#film-09">Watch “One installer, every laptop” <span class="arr">→</span></a><a class="btn" href="trust.html">How it stays trustworthy</a></div></div></div>
+</section>
+</main>
+
+<footer class="foot"></footer>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/pages.js"></script>
+</body>
+</html>

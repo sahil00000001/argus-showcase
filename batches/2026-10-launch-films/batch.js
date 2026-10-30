@@ -40,6 +40,13 @@ ARGUS.registerBatch({
 
   films: [
     {
+      n: 'tour', label: 'Full tour', key: 'ARGUS-showcase-full', topic: 'platform', duration: 263.7,
+      title: 'The full ARGUS tour',
+      hook: 'All ten capabilities, back to back.',
+      audience: 'Buyers who want the whole picture',
+      shows: 'The ten launch films joined in presentation order, from what ARGUS is to proof you can re-run, in four and a half minutes.',
+    },
+    {
       n: '01', key: '01-what-is-argus', topic: 'platform', duration: 26.5,
       title: 'What ARGUS is',
       hook: 'Your data leaves through the laptop.',

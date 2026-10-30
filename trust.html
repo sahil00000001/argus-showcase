@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Trust · ARGUS</title>
+<meta name="description" content="Privacy profiles, tamper protection and signed policy in ARGUS. Switch profiles, try to stop the service, and forge a policy to see what happens.">
+<meta name="theme-color" content="#070d1a">
+<link rel="icon" href="assets/img/argus.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/fonts.css">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body data-page="trust">
+<a class="skip" href="#main">Skip to content</a>
+<header class="top"></header>
+
+<main id="main">
+<section class="phero">
+  <div class="wrap">
+    <p class="crumbs">ARGUS / Trust</p>
+    <h1>Easy to explain. Hard to switch off. <span class="grad">Impossible to forge.</span></h1>
+    <p class="intro">Three things make monitoring acceptable to employees and useful to auditors: people can see what is collected, the agent can't be quietly disabled, and nobody can slip it a fake policy. Try all three below.</p>
+  </div>
+</section>
+
+<section class="section" id="privacy" style="padding-top:0">
+  <div class="wrap">
+    <div class="cols2" style="align-items:start;margin-top:0">
+      <div>
+        <p class="kicker">Privacy profiles</p>
+        <h2>Monitoring people can read.</h2>
+        <p class="intro">A visible icon sits in every employee's notification area. Opening it shows exactly what this deployment collects. A profile can only switch captures off, never on.</p>
+        <div class="ctrl" style="margin-top:26px"><span>Choose a profile</span>
+          <div class="seg" data-profile role="group" aria-label="Privacy profile"><button type="button" data-v="default">default</button><button type="button" data-v="eu-strict">eu-strict</button><button type="button" data-v="in-dpdp">in-dpdp</button></div>
+        </div>
+        <p class="muted" style="margin-top:16px" data-profile-note aria-live="polite"></p>
+        <h3 style="margin-top:30px">Never collected</h3>
+        <div class="never" style="margin-top:12px"><span>Keystrokes</span><span>The text you copy</span><span>The contents of your files</span><span>Your personal devices</span><span>Previews of copied text</span></div>
+      </div>
+      <div class="tray" data-reveal>
+        <div class="tray-h"><img src="assets/img/argus.svg" alt="">What ARGUS collects about me</div>
+        <div class="tray-b">
+          <p>ARGUS is the data loss prevention tool used on this company device. It looks for sensitive company and customer data leaving the device. It is not a productivity scoring tool.</p>
+          <p class="small" data-notice hidden style="color:var(--gold);margin:0">You were told about this monitoring before it started (DPDP notice).</p>
+          <div class="cap" data-cap="clip"><span class="sw" aria-hidden="true"></span><span><b>Clipboard</b>: checked in memory for sensitive data. Only the type and size are recorded, never the copied text.</span></div>
+          <div class="cap" data-cap="apps"><span class="sw" aria-hidden="true"></span><span><b>Applications in use</b> and for how long. Window titles only as an unreadable fingerprint.<span class="why" data-only="eu">Off under eu-strict</span></span></div>
+          <div class="cap" data-cap="web"><span class="sw" aria-hidden="true"></span><span><b>Websites in managed browsers</b>: address without query details, time on site, and pastes or uploads to webmail, personal cloud and AI chat.</span></div>
+          <div class="cap" data-cap="usb"><span class="sw" aria-hidden="true"></span><span><b>USB storage</b> connected, and files copied to it (checked for sensitive data).</span></div>
+          <div class="cap" data-cap="screens"><span class="sw" aria-hidden="true"></span><span><b>Screenshots</b>, only when a serious data-loss event happens, at most one every 5 minutes. Off unless your organisation turns it on.</span></div>
+          <p class="small" style="margin:0">Policy version 1 · Argus 0.6.0</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section line" id="tamper">
+  <div class="wrap">
+    <div class="cols2" style="align-items:start;margin-top:0">
+      <div>
+        <p class="kicker">Tamper protection</p>
+        <h2>Try to switch it off.</h2>
+        <p class="intro">You're a local administrator on this laptop. Pick an attack and watch what ARGUS and Windows do.</p>
+        <ul class="ticks" style="margin-top:24px">
+          <li><b>Only the installer, Intune or Group Policy</b> can stop, reconfigure or remove the ARGUS services. Local administrators are refused.</li>
+          <li><b>If the process is killed</b>, Windows restarts it and ARGUS raises a critical tamper alert.</li>
+          <li><b>Windows' own logs back this up:</b> service crashes, start-type changes, uninstalls and stop commands are all recorded.</li>
+          <li><b>File and registry integrity monitoring</b> watches the ARGUS folders and service settings.</li>
+        </ul>
+      </div>
+      <div class="term" data-reveal>
+        <div class="term-h"><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>Administrator: Windows PowerShell (simulation)</div>
+        <div class="term-b" data-term aria-live="polite"><span class="faint">Pick an attack below.</span><br><br></div>
+        <div class="attacks">
+          <button class="chip" type="button" data-attack="stop">Stop the service</button>
+          <button class="chip" type="button" data-attack="kill">Kill the process</button>
+          <button class="chip" type="button" data-attack="disable">Disable at boot</button>
+          <button class="chip" type="button" data-attack="policy">Swap the policy</button>
+          <button class="chip" type="button" data-attack="uninstall">Uninstall</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section line" id="signed">
+  <div class="wrap">
+    <p class="kicker">Signed policy</p>
+    <h2>Change one character and the laptop refuses it.</h2>
+    <p class="intro">One policy file defines the site block list, the site classes, the USB approve list and the modes. It is signed with ECDSA P-256, and laptops accept only signed policy. Below, this page has just signed the policy with a real P-256 key in your browser. Edit it and the signature check runs again.</p>
+    <div class="sig">
+      <div class="panel">
+        <div class="panel-h"><span>Policy excerpt</span><button class="copy" type="button" data-restore>Restore</button></div>
+        <div class="panel-b"><textarea id="policy" spellcheck="false" aria-label="Policy text">[bundle]
+policy_version = 1
+
+[site_classes]
+"mail.example.com" = "webmail"
+"drive.example.net" = "personal_cloud"
+"chat.example.ai" = "ai_chat"
+
+[enforcement.paste_guard]
+ai_chat = "block"
+webmail = "warn"
+personal_cloud = "warn"</textarea></div>
+      </div>
+      <div class="seal" data-seal aria-live="polite"><h4>Signing…</h4></div>
+    </div>
+    <ul class="ticks" style="margin-top:28px;max-width:80ch">
+      <li><b>Tampered, unsigned or older policy is rejected.</b> The last good policy stays in force, and the rejection becomes an alert.</li>
+      <li><b>One source, two outputs.</b> The same file produces the server lookup lists and the laptop policy, so they never drift.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap"><div class="band" data-reveal><h2>Ready to explain it to your employees?</h2><div class="cta-row"><a class="btn primary" href="deploy.html#pilot">Plan a pilot <span class="arr">→</span></a><a class="btn" href="films.html#film-06">Watch “Watching without spying”</a></div></div></div>
+</section>
+</main>
+
+<footer class="foot"></footer>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/pages.js"></script>
+</body>
+</html>
